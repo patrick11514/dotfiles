@@ -21,5 +21,5 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-m
 $ yay -S stow git
 $ git clone git@github.com:patrick11514/dotfiles.git
 $ cd dotfiles
-$ stow
+$ stow --adopt .
 ```
