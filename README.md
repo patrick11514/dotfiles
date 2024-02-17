@@ -3,7 +3,7 @@
 ## Pre-requisites
 
 ```BASH
-$ yay -S stow git zsh zoxide
+$ yay -S stow git zsh zoxide exa
 ```
 
 ## Installation
