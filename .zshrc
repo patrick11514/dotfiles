@@ -60,3 +60,5 @@ PATH=~/.console-ninja/.bin:$PATH
 [ -f ~/.inshellisense/key-bindings.zsh ] && source ~/.inshellisense/key-bindings.zsh
 
 eval "$(zoxide init zsh --cmd cd)"
+
+alias c="code"
