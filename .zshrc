@@ -61,4 +61,4 @@ PATH=~/.console-ninja/.bin:$PATH
 
 eval "$(zoxide init zsh --cmd cd)"
 
-alias c="code"
+alias c="~/scripts/startZed.sh"
