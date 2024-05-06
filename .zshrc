@@ -52,7 +52,7 @@ esac
 # pnpm end
 
 export GPG_TTY=$TTY
-alias neofetch="neofetch --ascii ~/Programs/neofetch"
+alias neofetch="fastfetch --kitty ~/dotfiles/fetch.png --logo-width 50"
 
 PATH=~/.console-ninja/.bin:$PATH
 . "$HOME/.cargo/env"
@@ -62,3 +62,4 @@ PATH=~/.console-ninja/.bin:$PATH
 eval "$(zoxide init zsh --cmd cd)"
 
 alias c="~/scripts/startZed.sh"
+alias gitArchive="~/scripts/gitArchive.sh"

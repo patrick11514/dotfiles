@@ -1,0 +1,9 @@
+#!/bin/bash
+#if arg 1 is not set
+if [ -z "$1" ]
+then
+    echo "No URL specified"
+    exit 1
+fi
+
+youtube-dl -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best' $1

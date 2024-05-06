@@ -1,0 +1,2 @@
+#!/bin/bash
+ssh admin@10.10.10.223 -i "/home/patrick115/keys/rpi"
