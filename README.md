@@ -27,3 +27,12 @@ $ git clone git@github.com:patrick11514/dotfiles.git
 $ cd dotfiles
 $ stow --adopt .
 ```
+
+### Same KDE settings
+```BASH
+sudo pacman -S python-pipx # if you don't have already installed pipx
+pipx install konsave # install konsave
+pipx inject konsave setuptools # install setuptools in konsave venv
+konsave -i konsave/KDE_settings.knsv # import profile
+konsave -a KDE_settings # apply profile
+```
