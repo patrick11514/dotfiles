@@ -7,6 +7,11 @@
 // custom settings, run the `open default settings` command
 // from the command palette or from `Zed` application menu.
 {
+  "languages": {
+    "C++": {
+      "show_copilot_suggestions": false
+    }
+  },
   "show_copilot_suggestions": true,
   "theme": "Ayu Dark",
   "vim_mode": false,
