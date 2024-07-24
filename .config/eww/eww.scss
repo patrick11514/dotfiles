@@ -1,0 +1,26 @@
+* {
+    all:unset;
+}
+
+.main {
+    background-color: #2A2E32;
+    border-radius: 10px;
+    font-family: "Roboto";
+}
+
+.workspaces button {
+    padding: 10px 15px;
+
+    &:hover, &.active {
+        background-color: #3a3a3a;
+
+        &:first-child {
+            border-radius: 10px 0px 0px 10px;
+        }
+    }
+}
+
+.title {
+    font-weight: 500;
+    font-size: 1.25rem;
+}

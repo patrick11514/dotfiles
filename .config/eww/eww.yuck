@@ -1,0 +1,51 @@
+; current date
+(defpoll time :interval "1s"
+    `date +%H:%M:%S`)
+
+; workspace info
+(defvar workspaces 7)
+(defpoll current_workspace :interval "0.2s"
+    `hyprctl activeworkspace -j | jq ".id"`)
+(deflisten workspace_list `./cli/bin.js --genArray 7`)
+
+; widnow info
+(defpoll current_title :interval "1s"
+    `hyprctl activewindow -j | jq -r .title`)
+
+(defwindow title
+    :monitor 1
+    :geometry (geometry :x "0%"
+                        :y "20px"
+                        :width "98.5%"
+                        :height "30px"
+                        :anchor "top center"
+              )
+    :exclusive true
+    (main))
+
+(defwidget main []
+    (centerbox
+        :class "main"
+        :orientation "h"
+        (workspaces)
+        (center)
+        (right)))
+
+(defwidget workspaces []
+    (box :halign "start"
+         :vexpand true
+         :class "workspaces"
+         
+        (for workspace in workspace_list
+            (button :onclick "hyprctl dispatch workspace ${workspace}" 
+                    :class {current_workspace == workspace ? "active" : ""}
+                workspace))
+        (label :visible false
+            :text current_workspace)))
+
+(defwidget center []
+    (box :class "title"
+    current_title))
+
+(defwidget right []
+    "🎵 test2")
