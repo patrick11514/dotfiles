@@ -35,7 +35,7 @@
 .progress scale trough {
     all: unset;
     min-width: 50px;
-    min-height: 3px;
+    min-height: 5px;
     border-radius: 999px;
     background-color: #4e4e4e;
 
@@ -44,4 +44,12 @@
         border-radius: 999px;
         background-color: #eb4034;
     }
+}
+
+.headphones {
+    color: white;
+}
+
+.headphones-off {
+    color: #eb4034;
 }
