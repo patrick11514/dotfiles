@@ -1,8 +1,8 @@
 ; workspace info
-(defvar workspaces 7)
+(defvar workspaces 10)
 (defpoll current_workspace :interval "0.2s"
     `hyprctl activeworkspace -j | jq ".id"`)
-(deflisten workspace_list `./cli/bin.js --genArray 7`)
+(deflisten workspace_list `./cli/bin.js --genArray 10`)
 
 ; window info
 (defpoll current_title :interval "1s"
