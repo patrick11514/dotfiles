@@ -3,7 +3,7 @@
 ## Pre-requisites
 
 ```BASH
-$ yay -S stow git zsh zoxide exa
+$ yay -S stow git zsh zoxide exa hyprland hyprpaper eww
 ```
 
 ## Installation
@@ -28,7 +28,7 @@ $ cd dotfiles
 $ stow --adopt .
 ```
 
-### Same KDE settings
+### Same KDE settings (old)
 ```BASH
 sudo pacman -S python-pipx # if you don't have already installed pipx
 pipx install konsave # install konsave
