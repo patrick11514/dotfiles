@@ -2,9 +2,15 @@
     all:unset;
 }
 
+$background: #1f1816;
+$light: #cdaca3;
+$hover: #724033;
+$darker: #bf6149;
+$radius: 10px;
+
 .main {
-    background-color: #2A2E32;
-    border-radius: 10px;
+    background-color: $background;
+    border-radius: $radius;
     font-family: "Roboto";
 }
 
@@ -12,10 +18,10 @@
     padding: 10px 15px;
 
     &:hover, &.active {
-        background-color: #3a3a3a;
+        background-color: $hover;
 
         &:first-child {
-            border-radius: 10px 0px 0px 10px;
+            border-radius: $radius 0px 0px $radius;
         }
     }
 }
@@ -37,12 +43,12 @@
     min-width: 50px;
     min-height: 5px;
     border-radius: 999px;
-    background-color: #4e4e4e;
+    background-color: $light;
 
     highlight {
         all: unset;
         border-radius: 999px;
-        background-color: #eb4034;
+        background-color: $darker;
     }
 }
 
@@ -51,5 +57,50 @@
 }
 
 .headphones-off {
-    color: #eb4034;
+    color: $darker;
+}
+
+.calendar {
+    background-color: $background;
+    border-radius: $radius;
+    padding: 10px;
+    font-size:large;
+    font-weight: bold;
+}
+
+.player {
+    background-color: $background;
+    border-radius: $radius;
+}
+
+.img {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 150px;
+    border-radius: $radius;
+    margin: 10px;
+    min-height: 150px;
+    min-width: 150px;
+}
+
+.name {
+    font-size: 1.75rem;
+    font-family: "Poppins";
+    font-weight: bold;
+    color: $darker;
+}
+
+.info {
+    padding: 20px 0px;
+}
+
+.artist {
+    font-size: x-large;
+    font-family: "Poppins";
+    font-weight: 700;
+    color: $hover;
+}
+
+.controls {
+    font-size: 3rem;
 }

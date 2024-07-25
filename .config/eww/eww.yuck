@@ -9,8 +9,14 @@
     `hyprctl activewindow -j | jq -r .title`)
 
 ; music info
-(deflisten song 
-    `playerctl --follow metadata --format "{{ artist }} - {{ title }}"`)
+(deflisten artist
+    `playerctl --follow metadata --format "{{ artist }}"`)
+(deflisten song
+    `playerctl --follow metadata --format "{{ title }}"`)
+(deflisten art
+    `./cli/bin.js --artwork --follow`)
+(defpoll status :interval "1s"
+    `playerctl status`)
 
 ; date
 (defpoll time :interval "60s"
@@ -18,6 +24,13 @@
 (defpoll rest_of_date :interval "1s"
     `date "+:%S %d.%m.%Y"`)
 (defvar show_full_date false)
+; calendar
+(defpoll day :interval "1440m"
+    `date "+%d"`)
+(defpoll month :interval "1440m"
+    `date "+%M"`)
+(defpoll year :interval "1440m"
+    `date "+%Y"`)
 
 ; eww
 (defvar eww "/usr/bin/eww")
@@ -28,17 +41,6 @@
     `wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print $2}'`)
 (defpoll muted :interval "1s"
     `pactl get-sink-mute @DEFAULT_SINK@ | awk '{print $2}'`)
-
-(defwindow title
-    :monitor 1
-    :geometry (geometry :x "0%"
-                        :y "20px"
-                        :width "98.5%"
-                        :height "30px"
-                        :anchor "top center"
-              )
-    :exclusive true
-    (main))
 
 (defwidget icon [icon text]
     (label :text "${icon}   ${text}"))
@@ -64,9 +66,11 @@
             :text current_workspace)))
 
 (defwidget center []
-    (box :class "title"
-        (box :visible {song != ""} (icon :icon "" :text song))
-        (box :visible {song == ""} (label :text {current_title ?: ""}))))
+    (button :onclick "./cli/bin.js --toggle-song"
+        (box :class "title"
+            (box :visible {song != ""} (icon :icon "" 
+                                             :text {status == "Playing" ? "${song} - ${artist} " : "${song} - ${artist} "}))
+            (box :visible {song == ""} (label :text {current_title ?: ""})))))
 
 (defwidget sep []
     (box :class "separator"
@@ -83,6 +87,7 @@
 (defwidget timedate []
     (eventbox :onhover "${eww} update show_full_date=true"
               :onhoverlost "${eww} update show_full_date=false"
+              :onclick "./cli/bin.js --toggle-calendar"
         (box :space-evenly false
              :halign "end"
              :class "time"
@@ -113,3 +118,71 @@
         :current { muted == "yes" ? 0 : volume * 100 }
         :onchange "wpctl set-volume ${audio_device} {}%"
         :iconClass { muted == "yes" ? "headphones-off" : "headphones" }))
+
+
+(defwindow title
+    :monitor 1
+    :geometry (geometry :x "0%"
+                        :y "20px"
+                        :width "98.5%"
+                        :height "30px"
+                        :anchor "top center"
+              )
+    :exclusive true
+    (main))
+
+;;;;;;;;;;;;;;;;;;;
+
+(defwidget cal []
+    (box :class "calendar"
+         :halign "fill"
+         :valign "fill"
+    (calendar :day day
+              :month month
+              :year year)))
+
+(defwindow calendar
+    :monitor 1
+    :geometry (geometry :x "20px"
+                        :y "10px"
+                        :width "10%"
+                        :height "200px"
+                        :anchor "top right" )
+    :stacking "fg"
+    (cal))
+
+;;;;;;;;;;;;;;;;;;;
+
+(defwidget music []
+    (box :class "music"
+        "Ahoj"))
+
+
+(defwindow player
+    :monitor 1
+    :geometry (geometry :x "20px"
+                        :y "10px"
+                        :width "20%"
+                        :height "150px"
+                        :anchor "top center")
+    (box :orientation "h" 
+         :class "player"
+         :space-evenly false
+        (box :class "img" 
+             :style "background-image: url('${art}')")
+        (box :class "info"
+             :orientation "v"
+             :hexpand true
+             :space-evenly false
+            (label :class "name" :text song)
+            (label :class "artist" :text artist)
+            (box :class "controls"
+                 :vexpand true
+                (button :onclick "playerctl previous" "󰙤")
+                (button :onclick { 
+                            status == "Playing" 
+                            ? "playerctl pause && ${eww} update status=Paused"
+                            : "playerctl play && ${eww} update status=Playing"
+                        }
+                        { status == "Playing" ? "󰏦" : "󰐍" })
+                (button :onclick "playerctl next" "󰙢")))))
