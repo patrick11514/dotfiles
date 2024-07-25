@@ -24,3 +24,24 @@
     font-weight: 500;
     font-size: 1.25rem;
 }
+
+.right {
+    padding-right: 10px;
+    & > * {
+        padding-right: 20px;
+    }
+}
+
+.progress scale trough {
+    all: unset;
+    min-width: 50px;
+    min-height: 3px;
+    border-radius: 999px;
+    background-color: #4e4e4e;
+
+    highlight {
+        all: unset;
+        border-radius: 999px;
+        background-color: #eb4034;
+    }
+}

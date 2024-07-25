@@ -1,16 +1,32 @@
-; current date
-(defpoll time :interval "1s"
-    `date +%H:%M:%S`)
-
 ; workspace info
 (defvar workspaces 7)
 (defpoll current_workspace :interval "0.2s"
     `hyprctl activeworkspace -j | jq ".id"`)
 (deflisten workspace_list `./cli/bin.js --genArray 7`)
 
-; widnow info
+; window info
 (defpoll current_title :interval "1s"
     `hyprctl activewindow -j | jq -r .title`)
+
+; music info
+(deflisten song 
+    `playerctl --follow metadata --format "{{ artist }} - {{ title }}"`)
+
+; date
+(defpoll time :interval "60s"
+    `date "+%H:%M"`)
+(defpoll rest_of_date :interval "1s"
+    `date "+:%S %d.%m.%Y"`)
+(defvar show_full_date false)
+
+; eww
+(defvar eww "/usr/bin/eww")
+
+; audio
+(defvar audio_device "@DEFAULT_AUDIO_SINK@")
+(defpoll volume :interval "1s"
+    `wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print $2}'`)
+(defvar muted false)
 
 (defwindow title
     :monitor 1
@@ -22,6 +38,9 @@
               )
     :exclusive true
     (main))
+
+(defwidget icon [icon text]
+    (label :text "${icon}   ${text}"))
 
 (defwidget main []
     (centerbox
@@ -45,7 +64,48 @@
 
 (defwidget center []
     (box :class "title"
-    current_title))
+        (box :visible {song != ""} (icon :icon "" :text song))
+        (box :visible {song == ""} (label :text {current_title ?: ""}))))
+
+(defwidget sep []
+    (box :class "separator"
+        (label :text "|")))
 
 (defwidget right []
-    "🎵 test2")
+    (box :space-evenly false
+         :halign "end"
+         :class "right"
+        (sound)
+        (sep)
+        (timedate)))
+
+(defwidget timedate []
+    (eventbox :onhover "${eww} update show_full_date=true"
+              :onhoverlost "${eww} update show_full_date=false"
+        (box :space-evenly false
+             :halign "end"
+             :class "time"
+            (icon :icon "" :text time )
+            (revealer :reveal show_full_date
+                      :transition "slideleft"
+                      :duration "350ms"
+                (label :text rest_of_date)))))
+
+(defwidget bar [icon current onchange click]
+    (box :space-evenly false
+         :class "progress"
+        (button :onclick click "${icon}  ")
+        (scale :min 0
+               :max 101
+               :value current
+               :active {onchange != ""}
+               :onchange onchange)))
+
+(defwidget sound []
+    (bar :click { 
+        muted ? 
+        "wpctl set-mute ${audio_device} 0 && ${eww} update muted=false" : 
+        "wpctl set-mute ${audio_device} 1 && ${eww} update muted=true"} 
+        :icon " " 
+        :current {muted ? 0 : volume * 100}
+        :onchange "wpctl set-volume ${audio_device} {}%"))
