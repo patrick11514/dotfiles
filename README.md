@@ -3,7 +3,12 @@
 ## Pre-requisites
 
 ```BASH
-$ yay -S stow git zsh zoxide exa hyprland hyprpaper eww
+$ yay -S 
+    stow git # to manage dotfiles
+    zsh zoxide exa # shell things
+    hyprland hyprpaper eww cliphist mako wofi # hyprland things
+    playerctl wpctl # programs used in eww tab
+    vesktop alacritty # other programs
 ```
 
 ## Installation
