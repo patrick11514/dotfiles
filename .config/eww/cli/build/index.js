@@ -113,7 +113,7 @@ const main = async (args) => {
             });
             cmd.stdout?.on('data', async (data) => {
                 if (data.trim() == "")
-                    return;
+                    return "~/.config/eww/music.png";
                 console.log(await getPath(data.trim()));
             });
         });

@@ -13,7 +13,7 @@
     `playerctl --follow metadata --format "{{ artist }}"`)
 (deflisten song
     `playerctl --follow metadata --format "{{ title }}"`)
-(deflisten art
+(deflisten art :initial "/home/patrick115/.config/eww/music.png"
     `./cli/bin.js --artwork --follow`)
 (defpoll status :interval "1s"
     `playerctl status`)
@@ -153,10 +153,6 @@
 
 ;;;;;;;;;;;;;;;;;;;
 
-(defwidget music []
-    (box :class "music"
-        "Ahoj"))
-
 
 (defwindow player
     :monitor 1
@@ -169,13 +165,13 @@
          :class "player"
          :space-evenly false
         (box :class "img" 
-             :style "background-image: url('${art}')")
+             :style { song == "" ? "background-image: url('/home/patrick115/.config/eww/music.png')" : "background-image: url('${art}')" } )
         (box :class "info"
              :orientation "v"
              :hexpand true
              :space-evenly false
-            (label :class "name" :text song)
-            (label :class "artist" :text artist)
+            (label :class "name" :text { song == "" ? "No Song" : song} )
+            (label :class "artist" :text { artist == "" ? "No Artist" : artist} )
             (box :class "controls"
                  :vexpand true
                 (button :onclick "playerctl previous" "󰙤")

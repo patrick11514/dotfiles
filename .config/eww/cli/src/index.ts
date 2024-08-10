@@ -130,7 +130,9 @@ const main = async (args: Args): Promise<string | void> => {
             });
 
             cmd.stdout?.on('data', async (data: string) => {
-                if (data.trim() == "") return
+                console.log(data);
+
+                if (data.trim() == "") return "~/.config/eww/music.png"
                 console.log(await getPath(data.trim()));
             });
         });
