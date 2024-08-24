@@ -1,8 +1,8 @@
 ; workspace info
-(defvar workspaces 10)
+(defvar workspaces 6)
 (defpoll current_workspace :interval "0.2s"
     `hyprctl activeworkspace -j | jq ".id"`)
-(deflisten workspace_list `./cli/bin.js --genArray 10`)
+(deflisten workspace_list `./cli/bin.js --genArray 6`)
 
 ; window info
 (defpoll current_title :interval "1s"
@@ -121,11 +121,10 @@
 
 
 (defwindow title
-    :monitor 1
     :geometry (geometry :x "0%"
                         :y "20px"
                         :width "98.5%"
-                        :height "30px"
+                        :height "40px"
                         :anchor "top center"
               )
     :exclusive true
@@ -142,7 +141,7 @@
               :year year)))
 
 (defwindow calendar
-    :monitor 1
+    :monitor 0
     :geometry (geometry :x "20px"
                         :y "10px"
                         :width "10%"
@@ -155,7 +154,7 @@
 
 
 (defwindow player
-    :monitor 1
+    :monitor 0
     :geometry (geometry :x "20px"
                         :y "10px"
                         :width "20%"
