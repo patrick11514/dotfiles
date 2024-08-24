@@ -42,6 +42,12 @@
 (defpoll muted :interval "1s"
     `pactl get-sink-mute @DEFAULT_SINK@ | awk '{print $2}'`)
 
+; brightness
+(defpoll brightness :interval "1s" 
+    `brightnessctl get`)
+(defpoll maxbrightness :interval "1s" 
+    `brightnessctl max`)
+
 (defwidget icon [icon text]
     (label :text "${icon}   ${text}"))
 
@@ -81,6 +87,7 @@
          :halign "end"
          :class "right"
         (sound)
+        (brightnessbar)
         (sep)
         (timedate)))
 
@@ -97,14 +104,14 @@
                       :duration "350ms"
                 (label :text rest_of_date)))))
 
-(defwidget bar [icon current onchange click iconClass]
+(defwidget bar [icon current onchange click iconClass ?max]
     (box :space-evenly false
          :class "progress"
         (button :class iconClass 
                 :onclick click 
                 "${icon}  ")
         (scale :min 0
-               :max 101
+               :max { max != "" ? max : 100 }
                :value current
                :active {onchange != ""}
                :onchange onchange)))
@@ -118,6 +125,17 @@
         :current { muted == "yes" ? 0 : volume * 100 }
         :onchange "wpctl set-volume ${audio_device} {}%"
         :iconClass { muted == "yes" ? "headphones-off" : "headphones" }))
+
+(defwidget brightnessbar []
+    (bar :click { 
+        brightness == 0 ? 
+        "brightnessctl -q s ${maxbrightness}" : 
+        "brightnessctl -q s 0" }
+        :icon ""
+        :current brightness
+        :onchange "brightnessctl -q s {}"
+        :iconClass "sun"
+        :max maxbrightness))
 
 
 (defwindow title
