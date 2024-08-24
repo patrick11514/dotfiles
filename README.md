@@ -3,11 +3,11 @@
 ## Pre-requisites
 
 ```BASH
-$ yay -S 
+$ yay -S
     stow git # to manage dotfiles
     zsh zoxide exa # shell things
     hyprland hyprpaper eww cliphist mako wofi # hyprland things
-    playerctl wpctl # programs used in eww tab
+    playerctl # programs used in eww tab
     vesktop alacritty # other programs
 ```
 
@@ -34,6 +34,7 @@ $ stow --adopt .
 ```
 
 ### Same KDE settings (old)
+
 ```BASH
 sudo pacman -S python-pipx # if you don't have already installed pipx
 pipx install konsave # install konsave
