@@ -3,6 +3,8 @@ import { exec } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 
+const monitor = 1;
+
 program
     .option('--genArray <int>', 'Generate array from 1 to <int> number')
     .option('--toggle-calendar', 'Toggle calendar on bar')
@@ -47,17 +49,25 @@ const cmd = async (command: string) => {
     );
 };
 
-const toggle = async (lockFileName: string, openCommand: string, closeCommand: string) => {
+const toggle = async (lockFileName: string, openCommand: string, closeCommand: string, force = false) => {
     const lockFile = path.join(getCacheDir(), lockFileName);
 
     try {
         if (fs.existsSync(lockFile)) {
             fs.rmSync(lockFile);
-            await cmd(closeCommand);
+            if (!force) {
+                await cmd(closeCommand);
+            } else {
+                cmd(closeCommand);
+            }
             return true;
         } else {
             fs.writeFileSync(lockFile, '');
-            await cmd(openCommand);
+            if (!force) {
+                await cmd(openCommand);
+            } else {
+                cmd(openCommand);
+            }
             return true;
         }
     } catch (_) {
@@ -103,13 +113,13 @@ const main = async (args: Args): Promise<string | void> => {
 
         return JSON.stringify(Array.from({ length: arrayMax }).map((_, i) => i + 1));
     } else if (args.toggleCalendar) {
-        const res = await toggle('eww-calendar.lock', `${eww} open calendar`, `${eww} close calendar`);
+        const res = await toggle('eww-calendar.lock', `${eww} open calendar --screen ${monitor}`, `${eww} close calendar`);
         if (res) {
             return 'ok';
         }
         return 'not-ok';
     } else if (args.toggleSong) {
-        const res = await toggle('eww-song.lock', `${eww} open player`, `${eww} close player`);
+        const res = await toggle('eww-song.lock', `${eww} open player  --screen ${monitor}`, `${eww} close player`);
         if (res) {
             return 'ok';
         }

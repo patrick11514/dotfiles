@@ -43,10 +43,15 @@
     `pactl get-sink-mute @DEFAULT_SINK@ | awk '{print $2}'`)
 
 ; brightness
-(defpoll brightness :interval "1s" 
+(defpoll brightnessvalue :interval "1s" 
     `brightnessctl get`)
 (defpoll maxbrightness :interval "1s" 
     `brightnessctl max`)
+
+;stats
+(defvar batteryName "BAT1")
+(defvar showWifi "") ; put something into quotes to show
+(defvar netDevice "enp42s0")
 
 (defwidget icon [icon text]
     (label :text "${icon}   ${text}"))
@@ -82,13 +87,47 @@
     (box :class "separator"
         (label :text "|")))
 
+(defwidget iconText [icon text class ?tooltip]
+    (box :space-evenly false
+         :tooltip tooltip
+        (label :text "${icon} " 
+            :class "${class}") 
+        (label :text text)))
+
+(defwidget status [icon value ?type]
+    (iconText 
+            :icon "${icon} " 
+            :text "${round(value, 2)}${type == '' ? '%' : type}"
+            :tooltip "${round(value, 2)}${type == '' ? '%' : type}"
+            :class { "${value}" < 25 ? "green" :
+                   "${value}" < 50 ? "yellow" : 
+                   "${value}" < 75 ? "orange" : "red" }))
+
 (defwidget right []
     (box :space-evenly false
          :halign "end"
          :class "right"
-        (sound)
-        (brightnessbar)
+;        (systray)
+        (status 
+            :icon "" 
+            :value "${EWW_CPU.avg}")
+        (status 
+            :icon ""
+            :value "${EWW_RAM.used_mem_perc}")
+        (status 
+            :icon "󰇚" 
+            :value "${EWW_NET[netDevice].NET_DOWN * 8 / 1000}"
+            :type "Mbps")
+        (status 
+            :icon "󰕒" 
+            :value "${EWW_NET[netDevice].NET_UP * 8 / 1000}"
+            :type "Mbps")
         (sep)
+        (sound)
+        (brightness)
+        (sep)
+        (wifi)
+        (battery)
         (timedate)))
 
 (defwidget timedate []
@@ -104,12 +143,15 @@
                       :duration "350ms"
                 (label :text rest_of_date)))))
 
-(defwidget bar [icon current onchange click iconClass ?max]
+(defwidget bar [icon current onchange click iconClass ?max ?reveal]
     (box :space-evenly false
          :class "progress"
         (button :class iconClass 
                 :onclick click 
                 "${icon}  ")
+        (revealer :reveal reveal
+                  :transition "slideright"
+            (children))
         (scale :min 0
                :max { max != "" ? max : 100 }
                :value current
@@ -126,19 +168,45 @@
         :onchange "wpctl set-volume ${audio_device} {}%"
         :iconClass { muted == "yes" ? "headphones-off" : "headphones" }))
 
-(defwidget brightnessbar []
+(defwidget brightness []
     (bar :click { 
-        brightness == 0 ? 
+        brightnessvalue == 0 ? 
         "brightnessctl -q s ${maxbrightness}" : 
         "brightnessctl -q s 0" }
         :icon ""
-        :current brightness
-        :onchange "brightnessctl -q s {}"
-        :iconClass "sun"
-        :max maxbrightness))
+        :current {brightnessvalue / maxbrightness * 100}
+        :onchange "brightnessctl -q s {}%"
+        :iconClass "sun"))
 
+(defwidget battery []
+    (revealer :reveal {"${EWW_BATTERY}" != ""}
+              :transition "slideleft"
+                (box
+                    :tooltip "${EWW_BATTERY[batteryName].capacity}%"
+                    :space-evenly false
+                    (label
+                        :text {
+                            "${EWW_BATTERY[batteryName].capacity}" > 80 ? " " : 
+                            "${EWW_BATTERY[batteryName].capacity}" > 60 ? " " : 
+                            "${EWW_BATTERY[batteryName].capacity}" > 40 ? " " : 
+                            "${EWW_BATTERY[batteryName].capacity}" > 20 ? " " : " " 
+                            }
+                        :class {
+                          "${EWW_BATTERY[batteryName].capacity}" > 80 ? "battery-fully" : 
+                          "${EWW_BATTERY[batteryName].capacity}" > 60 ? "battery-full" : 
+                          "${EWW_BATTERY[batteryName].capacity}" > 40 ? "battery-middle" : 
+                          "${EWW_BATTERY[batteryName].capacity}" > 20 ? "battery-low" : "battery-critical" 
+                        })
+                    (revealer :reveal { "${EWW_BATTERY[batteryName].status}" == "Charging" }
+                              :transition "slideleft"
+                                (label :text "" :class "bolt")))))
 
-(defwindow title
+(defwidget wifi []
+    (revealer :reveal { showWifi != "" }
+              :transition "slideleft"
+            (label :text "󰤮" :class "wifi")))
+
+(defwindow bar
     :geometry (geometry :x "0%"
                         :y "20px"
                         :width "98.5%"
@@ -159,7 +227,6 @@
               :year year)))
 
 (defwindow calendar
-    :monitor 0
     :geometry (geometry :x "20px"
                         :y "10px"
                         :width "10%"
@@ -172,7 +239,6 @@
 
 
 (defwindow player
-    :monitor 0
     :geometry (geometry :x "20px"
                         :y "10px"
                         :width "20%"

@@ -8,7 +8,7 @@ $ yay -S
     zsh zoxide exa # shell things
     hyprland hyprpaper hyprlock eww cliphist mako wofi # hyprland things
     playerctl jq # programs used in eww tab
-    vesktop alacritty # other programs
+    vesktop alacritty lf # other programs
     slurp grim # screenshotting
 ```
 
@@ -60,13 +60,3 @@ $ pnpm build
 -   Configuration is at: .config/eww/eww.yuck
     -   Change variables: workspaces and workspace_list, where param for genArray set tu number of your workspaces
     -   Change displays replace every :monitor 1 with your monitor number
-
-### Same KDE settings (old)
-
-```BASH
-sudo pacman -S python-pipx # if you don't have already installed pipx
-pipx install konsave # install konsave
-pipx inject konsave setuptools # install setuptools in konsave venv
-konsave -i konsave/KDE_settings.knsv # import profile
-konsave -a KDE_settings # apply profile
-```
