@@ -60,6 +60,56 @@ $radius: 10px;
     color: $darker;
 }
 
+.sun {
+    color: yellow;
+}
+
+.battery-fully {
+    padding: 0rem 5px;
+    color: green;
+}
+
+.battery-full {
+    padding: 0rem 5px;
+    color: rgb(0, 198, 0);
+}
+
+.battery-middle {
+    padding: 0rem 5px;
+    color: yellow;
+}
+
+.battery-low {
+    padding: 0rem 5px;
+    color: orange;
+}
+
+.battery-critical {
+    padding: 0rem 5px;
+    color: red;
+}
+
+.bolt {
+    color: rgb(71, 70, 70);
+    padding: 0 2px;
+}
+
+.red {
+    color: red;
+}
+
+.orange {
+    color: orange;
+}
+
+.yellow {
+    color: yellow;
+}
+
+.green {
+    color: green;
+}
+
 .calendar {
     background-color: $background;
     border-radius: $radius;
@@ -103,4 +153,15 @@ $radius: 10px;
 
 .controls {
     font-size: 3rem;
+}
+
+tooltip {
+    padding: 8px 4px;
+    border-radius: 10px;
+    background-color: $background;
+    font-weight: bold;
+}
+
+.wifi {
+    font-size: x-large;
 }
