@@ -8,7 +8,7 @@ $ yay -S
     zsh zoxide exa # shell things
     hyprland hyprpaper hyprlock eww cliphist mako wofi # hyprland things
     playerctl jq # programs used in eww tab
-    vesktop alacritty # other programs
+    vesktop alacritty lf # other programs
     slurp grim # screenshotting
 ```
 
