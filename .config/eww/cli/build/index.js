@@ -7,8 +7,10 @@ const commander_1 = require("commander");
 const node_child_process_1 = require("node:child_process");
 const node_fs_1 = __importDefault(require("node:fs"));
 const node_path_1 = __importDefault(require("node:path"));
+const monitor = 1;
 commander_1.program
     .option('--genArray <int>', 'Generate array from 1 to <int> number')
+    .option("--toggle-bar", "Toggle main bar")
     .option('--toggle-calendar', 'Toggle calendar on bar')
     .option('--toggle-song', 'Toggle song on bar')
     .option('--artwork', 'Get artwork')
@@ -32,17 +34,27 @@ const cmd = async (command) => {
         reject(err);
     }));
 };
-const toggle = async (lockFileName, openCommand, closeCommand) => {
+const toggle = async (lockFileName, openCommand, closeCommand, force = false) => {
     const lockFile = node_path_1.default.join(getCacheDir(), lockFileName);
     try {
         if (node_fs_1.default.existsSync(lockFile)) {
             node_fs_1.default.rmSync(lockFile);
-            await cmd(closeCommand);
+            if (!force) {
+                await cmd(closeCommand);
+            }
+            else {
+                cmd(closeCommand);
+            }
             return true;
         }
         else {
             node_fs_1.default.writeFileSync(lockFile, '');
-            await cmd(openCommand);
+            if (!force) {
+                await cmd(openCommand);
+            }
+            else {
+                cmd(openCommand);
+            }
             return true;
         }
     }
@@ -85,15 +97,22 @@ const main = async (args) => {
         }
         return JSON.stringify(Array.from({ length: arrayMax }).map((_, i) => i + 1));
     }
+    else if (args.toggleBar) {
+        const res = await toggle('eww-bar.lock', `${eww} open bar --screen ${monitor} & disown`, `${eww} close bar`, true);
+        if (res) {
+            return 'ok';
+        }
+        return 'not-ok';
+    }
     else if (args.toggleCalendar) {
-        const res = await toggle('eww-calendar.lock', `${eww} open calendar`, `${eww} close calendar`);
+        const res = await toggle('eww-calendar.lock', `${eww} open calendar --screen ${monitor}`, `${eww} close calendar`);
         if (res) {
             return 'ok';
         }
         return 'not-ok';
     }
     else if (args.toggleSong) {
-        const res = await toggle('eww-song.lock', `${eww} open player`, `${eww} close player`);
+        const res = await toggle('eww-song.lock', `${eww} open player  --screen ${monitor}`, `${eww} close player`);
         if (res) {
             return 'ok';
         }
@@ -112,6 +131,7 @@ const main = async (args) => {
                 resolve('');
             });
             cmd.stdout?.on('data', async (data) => {
+                console.log(data);
                 if (data.trim() == "")
                     return "~/.config/eww/music.png";
                 console.log(await getPath(data.trim()));
