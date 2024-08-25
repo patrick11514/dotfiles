@@ -51,7 +51,7 @@
 ;stats
 (defvar batteryName "BAT1")
 (defvar showWifi "") ; put something into quotes to show
-(defvar netDevice "enp42s0")
+(defvar netDevice "wlan0")
 
 (defwidget icon [icon text]
     (label :text "${icon}   ${text}"))
