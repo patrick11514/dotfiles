@@ -10,7 +10,8 @@ $ yay -S
     playerctl jq # programs used in eww tab
     vesktop alacritty lf # other programs
     slurp grim # screenshotting
-    qt5ct qt6ct breeze5 # 
+    qt5ct qt6ct breeze5 # qt things
+    network-manager-applet # network manager
 ```
 
 ## Installation
