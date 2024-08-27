@@ -3,7 +3,7 @@ import { exec } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 
-const monitor = 1;
+const monitor = 0;
 
 program
     .option('--genArray <int>', 'Generate array from 1 to <int> number')

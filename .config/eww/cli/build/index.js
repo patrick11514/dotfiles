@@ -7,6 +7,7 @@ const commander_1 = require("commander");
 const node_child_process_1 = require("node:child_process");
 const node_fs_1 = __importDefault(require("node:fs"));
 const node_path_1 = __importDefault(require("node:path"));
+const monitor = 0;
 commander_1.program
     .option('--genArray <int>', 'Generate array from 1 to <int> number')
     .option('--toggle-calendar', 'Toggle calendar on bar')
@@ -95,13 +96,6 @@ const main = async (args) => {
         }
         return JSON.stringify(Array.from({ length: arrayMax }).map((_, i) => i + 1));
     }
-    else if (args.toggleBar) {
-        const res = await toggle('eww-bar.lock', `${eww} open bar --screen ${monitor} & disown`, `${eww} close bar`, true);
-        if (res) {
-            return 'ok';
-        }
-        return 'not-ok';
-    }
     else if (args.toggleCalendar) {
         const res = await toggle('eww-calendar.lock', `${eww} open calendar --screen ${monitor}`, `${eww} close calendar`);
         if (res) {
@@ -129,6 +123,7 @@ const main = async (args) => {
                 resolve('');
             });
             cmd.stdout?.on('data', async (data) => {
+                console.log(data);
                 if (data.trim() == "")
                     return "~/.config/eww/music.png";
                 console.log(await getPath(data.trim()));
