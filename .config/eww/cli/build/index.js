@@ -10,7 +10,6 @@ const node_path_1 = __importDefault(require("node:path"));
 const monitor = 1;
 commander_1.program
     .option('--genArray <int>', 'Generate array from 1 to <int> number')
-    .option("--toggle-bar", "Toggle main bar")
     .option('--toggle-calendar', 'Toggle calendar on bar')
     .option('--toggle-song', 'Toggle song on bar')
     .option('--artwork', 'Get artwork')
@@ -96,13 +95,6 @@ const main = async (args) => {
             throw Error('Please enter number as argument');
         }
         return JSON.stringify(Array.from({ length: arrayMax }).map((_, i) => i + 1));
-    }
-    else if (args.toggleBar) {
-        const res = await toggle('eww-bar.lock', `${eww} open bar --screen ${monitor} & disown`, `${eww} close bar`, true);
-        if (res) {
-            return 'ok';
-        }
-        return 'not-ok';
     }
     else if (args.toggleCalendar) {
         const res = await toggle('eww-calendar.lock', `${eww} open calendar --screen ${monitor}`, `${eww} close calendar`);
