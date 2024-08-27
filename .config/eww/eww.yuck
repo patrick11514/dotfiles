@@ -76,7 +76,7 @@
 
 (defwidget center []
     (button :onclick "./cli/bin.js --toggle-song"
-        (box :class "title"
+        (box
             (box :visible {song != ""} (icon :icon "" 
                                              :text {status == "Playing" ? "${song} - ${artist} " : "${song} - ${artist} "}))
             (box :visible {song == ""} (label :text {current_title ?: ""})))))
