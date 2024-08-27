@@ -50,8 +50,6 @@
 
 ;stats
 (defvar batteryName "BAT1")
-(defvar showWifi "") ; put something into quotes to show
-(defvar netDevice "wlan0")
 
 (defwidget icon [icon text]
     (label :text "${icon}   ${text}"))
@@ -78,7 +76,7 @@
 
 (defwidget center []
     (button :onclick "./cli/bin.js --toggle-song"
-        (box :class "title"
+        (box
             (box :visible {song != ""} (icon :icon "" 
                                              :text {status == "Playing" ? "${song} - ${artist} " : "${song} - ${artist} "}))
             (box :visible {song == ""} (label :text {current_title ?: ""})))))
@@ -107,26 +105,17 @@
     (box :space-evenly false
          :halign "end"
          :class "right"
-;        (systray)
         (status 
             :icon "" 
             :value "${EWW_CPU.avg}")
         (status 
             :icon ""
             :value "${EWW_RAM.used_mem_perc}")
-        (status 
-            :icon "󰇚" 
-            :value "${EWW_NET[netDevice].NET_DOWN * 8 / 1000}"
-            :type "Mbps")
-        (status 
-            :icon "󰕒" 
-            :value "${EWW_NET[netDevice].NET_UP * 8 / 1000}"
-            :type "Mbps")
         (sep)
         (sound)
         (brightness)
         (sep)
-        (wifi)
+        (systray)
         (battery)
         (timedate)))
 
@@ -200,11 +189,6 @@
                     (revealer :reveal { "${EWW_BATTERY[batteryName].status}" == "Charging" }
                               :transition "slideleft"
                                 (label :text "" :class "bolt")))))
-
-(defwidget wifi []
-    (revealer :reveal { showWifi != "" }
-              :transition "slideleft"
-            (label :text "󰤮" :class "wifi")))
 
 (defwindow bar
     :geometry (geometry :x "0%"
