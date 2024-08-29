@@ -52,7 +52,7 @@
 (defvar batteryName "BAT1")
 
 (defwidget icon [icon text]
-    (label :text "${icon}   ${text}"))
+    (label :yalign 0.5 :text "${icon}   ${text}"))
 
 (defwidget main []
     (centerbox
@@ -131,7 +131,7 @@
             (revealer :reveal show_full_date
                       :transition "slideleft"
                       :duration "350ms"
-                (label :text rest_of_date)))))
+                (label :yalign 0.48 :text rest_of_date)))))
 
 (defwidget bar [icon current onchange click iconClass ?max ?reveal]
     (box :space-evenly false
