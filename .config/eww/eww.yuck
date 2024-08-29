@@ -171,7 +171,11 @@
     (revealer :reveal {"${EWW_BATTERY}" != ""}
               :transition "slideleft"
                 (box
-                    :tooltip "${EWW_BATTERY[batteryName].capacity}%"
+                    :tooltip { 
+                        "${EWW_BATTERY[batteryName].status}" == "Charging" ? 
+                        "${EWW_BATTERY[batteryName].capacity}% (charging)" : 
+                        "${EWW_BATTERY[batteryName].capacity}%" 
+                    }
                     :space-evenly false
                     (label
                         :text {
