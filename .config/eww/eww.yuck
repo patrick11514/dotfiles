@@ -65,8 +65,7 @@
 (defwidget workspaces []
     (box :halign "start"
          :vexpand true
-         :class "workspaces"
-         
+         :class "workspaces"         
         (for workspace in workspace_list
             (button :onclick "hyprctl dispatch workspace ${workspace}" 
                     :class {current_workspace == workspace ? "active" : ""}
@@ -92,11 +91,11 @@
             :class "${class}") 
         (label :text text)))
 
-(defwidget status [icon value ?type]
+(defwidget status [icon value ?type ?tooltip ?tooltipType]
     (iconText 
             :icon "${icon} " 
             :text "${round(value, 2)}${type == '' ? '%' : type}"
-            :tooltip "${round(value, 2)}${type == '' ? '%' : type}"
+            :tooltip { tooltip == "" ? "${round(value, 2)}${type == '' ? '%' : type}" : "${round(tooltip, 2)}${tooltipType == '' ? '%' : tooltipType}" }
             :class { "${value}" < 25 ? "green" :
                    "${value}" < 50 ? "yellow" : 
                    "${value}" < 75 ? "orange" : "red" }))
@@ -110,7 +109,9 @@
             :value "${EWW_CPU.avg}")
         (status 
             :icon ""
-            :value "${EWW_RAM.used_mem_perc}")
+            :value "${EWW_RAM.used_mem_perc}"
+            :tooltip "${EWW_RAM.used_mem / (1024 * 1024 * 1024)}"
+            :tooltipType "GB")
         (sep)
         (sound)
         (brightness)
