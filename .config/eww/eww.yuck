@@ -77,9 +77,10 @@
 (defwidget center []
     (button :onclick "./cli/bin.js --toggle-song"
         (box
-            (box :visible {song != ""} (icon :icon "" 
-                                             :text {status == "Playing" ? "${song} - ${artist} " : "${song} - ${artist} "}))
-            (box :visible {song == ""} (label :text {current_title ?: ""})))))
+            (box :visible {song != ""} (icon :icon ""
+                                             :post { status == "Playing" ? "" : "" } 
+                                             :text "${song} - ${artist}"))
+            (box :visible {song == ""} (label :text {current_title ? "${substring(current_title, 0, 32)}" : ""})))))
 
 (defwidget sep []
     (box :class "separator"
@@ -92,11 +93,11 @@
             :class "${class}") 
         (label :text text)))
 
-(defwidget status [icon value ?type]
+(defwidget status [icon value ?type ?tooltip ?tooltipType]
     (iconText 
             :icon "${icon} " 
             :text "${round(value, 2)}${type == '' ? '%' : type}"
-            :tooltip "${round(value, 2)}${type == '' ? '%' : type}"
+            :tooltip { tooltip == "" ? "${round(value, 2)}${type == '' ? '%' : type}" : "${round(tooltip, 2)}${tooltipType == '' ? '%' : tooltipType}" }
             :class { "${value}" < 25 ? "green" :
                    "${value}" < 50 ? "yellow" : 
                    "${value}" < 75 ? "orange" : "red" }))
@@ -110,7 +111,9 @@
             :value "${EWW_CPU.avg}")
         (status 
             :icon ""
-            :value "${EWW_RAM.used_mem_perc}")
+            :value "${EWW_RAM.used_mem_perc}"
+            :tooltip "${EWW_RAM.used_mem / (1024 * 1024 * 1024)}"
+            :tooltipType "GB")
         (sep)
         (sound)
         (brightness)
@@ -171,7 +174,11 @@
     (revealer :reveal {"${EWW_BATTERY}" != ""}
               :transition "slideleft"
                 (box
-                    :tooltip "${EWW_BATTERY[batteryName].capacity}%"
+                    :tooltip { 
+                        "${EWW_BATTERY[batteryName].status}" == "Charging" ? 
+                        "${EWW_BATTERY[batteryName].capacity}% (charging)" : 
+                        "${EWW_BATTERY[batteryName].capacity}%" 
+                    }
                     :space-evenly false
                     (label
                         :text {
