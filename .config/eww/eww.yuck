@@ -51,8 +51,8 @@
 ;stats
 (defvar batteryName "BAT1")
 
-(defwidget icon [icon text]
-    (label :yalign 0.5 :text "${icon}   ${text}"))
+(defwidget icon [icon text ?post]
+    (label :yalign 0.5 :text "${icon}   ${text} ${post}"))
 
 (defwidget main []
     (centerbox
@@ -76,9 +76,10 @@
 (defwidget center []
     (button :onclick "./cli/bin.js --toggle-song"
         (box
-            (box :visible {song != ""} (icon :icon "" 
-                                             :text {status == "Playing" ? "${song} - ${artist} " : "${song} - ${artist} "}))
-            (box :visible {song == ""} (label :text {current_title ?: ""})))))
+            (box :visible {song != ""} (icon :icon ""
+                                             :post { status == "Playing" ? "" : "" } 
+                                             :text "${song} - ${artist}"))
+            (box :visible {song == ""} (label :text {current_title ? "${substring(current_title, 0, 32)}" : ""})))))
 
 (defwidget sep []
     (box :class "separator"
