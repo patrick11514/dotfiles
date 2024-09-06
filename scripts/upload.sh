@@ -1,4 +1,7 @@
 #!/bin/bash
-chmod 644 $1
-sshpass -p "etSARZqwhKpCc5xvXMLa4EGz" scp $1 images@10.10.10.223:/var/www/patrick115.eu/upload/.storage
-echo "https://upload.patrick115.eu/screenshot/${1##*/}"
+FILENAME="/tmp/screenshot.png"
+chmod 644 $FILENAME
+RANDOMNAME=$(cat /dev/urandom | tr -cd 'a-f0-9' | head -c 10)
+scp $FILENAME images:/var/www/patrick115.eu/upload/.storage/$RANDOMNAME.png
+echo "https://upload.patrick115.eu/screenshot/$RANDOMNAME.png" | wl-copy
+notify-send -t 5000 -u low "Screenshot has been uploaded"
