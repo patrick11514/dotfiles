@@ -6,7 +6,7 @@
 $ yay -S
     stow git # to manage dotfiles
     zsh zoxide exa # shell things
-    hyprland hyprpaper hyprlock eww cliphist mako wofi # hyprland things
+    hyprland hyprpaper hyprlock eww cliphist mako wofi mate-polkit # hyprland things
     playerctl jq # programs used in eww tab
     vesktop alacritty lf thunar # other programs
     slurp grim # screenshotting
