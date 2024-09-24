@@ -52,7 +52,7 @@
 (defvar batteryName "BAT1")
 
 (defwidget icon [icon text ?post]
-    (label :yalign 0.5 :text "${icon}   ${text} ${post}"))
+    (label :yalign 0.5 :text "${icon}   ${text}${post == '' ? '' : ' ${post}'}"))
 
 (defwidget main []
     (centerbox
