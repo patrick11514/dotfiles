@@ -19,7 +19,7 @@
     `playerctl status`)
 
 ; date
-(defpoll time :interval "60s"
+(defpoll time :interval "1s"
     `date "+%H:%M"`)
 (defpoll rest_of_date :interval "1s"
     `date "+:%S %d.%m.%Y"`)
