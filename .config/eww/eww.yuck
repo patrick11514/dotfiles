@@ -79,7 +79,7 @@
             (box :visible {song != ""} (icon :icon ""
                                              :post { status == "Playing" ? "" : "" } 
                                              :text "${song} - ${artist}"))
-            (box :visible {song == ""} (label :text {current_title ? "${substring(current_title, 0, 32)}" : ""})))))
+            (box :visible {song == ""} (label :text {current_title != "" ? "${substring(current_title, 0, 80)}" : "NE"})))))
 
 (defwidget sep []
     (box :class "separator"
