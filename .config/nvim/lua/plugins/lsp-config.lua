@@ -28,12 +28,16 @@ return {
                 capabilities = capabilities
             })
             lspconfig.ts_ls.setup({
-                capabilities = capabilities
+                capabilities = capabilities,
+
             })
             lspconfig.clangd.setup({
                 capabilities = capabilities
             })
             lspconfig.html.setup({
+                capabilities = capabilities
+            })
+            lspconfig.svelte.setup({
                 capabilities = capabilities
             })
 
