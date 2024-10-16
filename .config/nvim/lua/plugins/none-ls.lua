@@ -1,3 +1,5 @@
+vim.g.FormatOnSave = true
+
 return {
 	"nvimtools/none-ls.nvim",
 	dependencies = {
@@ -7,6 +9,15 @@ return {
 		local null_ls = require("null-ls")
 
 		local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+
+		vim.api.nvim_create_user_command("FormatOnSave", function()
+			vim.g.FormatOnSave = not vim.g.FormatOnSave
+			if vim.g.FormatOnSave == true then
+				print("FormatOnSave toggled on")
+			else
+				print("FormatOnSave toggled off")
+			end
+		end, {})
 
 		null_ls.setup({
 			sources = {
@@ -26,7 +37,9 @@ return {
 						callback = function()
 							-- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
 							-- on later neovim version, you should use vim.lsp.buf.format({ async = false }) instead
-							vim.lsp.buf.format({ async = false })
+							if vim.g.FormatOnSave then
+								vim.lsp.buf.format({ async = false })
+							end
 						end,
 					})
 				end
