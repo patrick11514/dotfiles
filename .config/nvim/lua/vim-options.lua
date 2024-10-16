@@ -6,5 +6,6 @@ vim.cmd("set softtabstop=4")
 vim.cmd("set shiftwidth=4")
 vim.cmd("set number")
 
-vim.api.nvim_set_keymap(  't'  ,  '<Leader><ESC>'  ,  '<C-\\><C-n>'  ,  {noremap = true}  )
+vim.api.nvim_set_keymap("t", "<Leader><ESC>", "<C-\\><C-n>", { noremap = true })
 vim.keymap.set("n", "<Leader>t", ":ToggleTerm<CR>")
+vim.keymap.set("n", "<A-Tab>", ":e#<CR>")
