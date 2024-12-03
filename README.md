@@ -8,7 +8,7 @@ $ yay -S
     zsh zoxide exa # shell things
     hyprland hyprpaper hyprlock eww cliphist mako wofi mate-polkit # hyprland things
     playerctl jq # programs used in eww tab
-    vesktop alacritty lf thunar # other programs
+    vesktop kitty lf thunar wofi-emoji neovim ripgrep # other programs
     slurp grim # screenshotting
     qt5ct qt6ct breeze5 # qt things
     network-manager-applet # network manager

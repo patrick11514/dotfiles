@@ -63,3 +63,4 @@ eval "$(zoxide init zsh --cmd cd)"
 
 alias c="~/scripts/startZed.sh"
 alias gitArchive="~/scripts/gitArchive.sh"
+alias ta-vec-na-klavesy="wev"
