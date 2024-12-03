@@ -22,7 +22,11 @@ return {
 		null_ls.setup({
 			sources = {
 				null_ls.builtins.formatting.stylua,
-				require("none-ls.diagnostics.eslint_d"),
+				require("none-ls.diagnostics.eslint").with({
+					condition = function(utils)
+						return utils.root_has_file({ "eslint.config.js" })
+					end,
+				}),
 				null_ls.builtins.formatting.prettier,
 				null_ls.builtins.formatting.black,
 				null_ls.builtins.formatting.isort,
