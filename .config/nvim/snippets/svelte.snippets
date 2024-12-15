@@ -3,3 +3,11 @@ snippet kitScriptTS Svelte script tag typescript
         const props = \$props();
         $1
     </script>
+
+snippet kitScriptTSChild Svelte script tag with child
+    <script lang="ts">
+        import type { Snippet } from 'svelte';
+
+        const { children }: { children: Snippet } = \$props();
+        $1
+    </script>
