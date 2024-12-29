@@ -1,19 +1,21 @@
 snippet kitPageLoad Svelte PageLoad function
-    import type { PageServerLoad } from './$types';
+    import type { PageServerLoad } from './\$types';
 
     export const load = (async () => {
         $1
     }) satisfies PageServerLoad
 snippet kitLayoutLoad Svelte PageLoad function
-    import type { LayoutServerLoad } from './$types';
+    import type { LayoutServerLoad } from './\$types';
 
     export const load = (async () => {
         $1
     }) satisfies LayoutServerLoad
+
 snippet GET Get procedure
     procedure.GET.query(async () => {
         $1
     })
+
 snippet POST Post procedure
     procedure.POST.input($1).query(async ({ input }) => {
         $2
