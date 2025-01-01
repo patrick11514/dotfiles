@@ -1,34 +1,46 @@
 snippet kitPageLoad Svelte PageLoad function
     import type { PageServerLoad } from './\$types';
 
-    export const load = (async () => {
-        $1
+    export const load = (async ($1) => {
+        $2
     }) satisfies PageServerLoad
 snippet kitLayoutLoad Svelte PageLoad function
     import type { LayoutServerLoad } from './\$types';
 
-    export const load = (async () => {
-        $1
+    export const load = (async ($1) => {
+        $2
     }) satisfies LayoutServerLoad
 
-snippet GET Get procedure
+snippet kitGET Get procedure
     procedure.GET.query(async () => {
         $1
     })
 
-snippet POST Post procedure
+
+snippet kitPOST Post procedure
     procedure.POST.input($1).query(async ({ input }) => {
         $2
     })
-snippet PUT Put procedure
+snippet kitPUT Put procedure
     procedure.PUT.input($1).query(async ({ input }) => {
         $2
     })
-snippet PATCH Patch procedure
+snippet kitPATCH Patch procedure
     procedure.PATCH.input($1).query(async ({ input }) => {
         $2
     })
-snippet DELETE Delete procedure
+snippet kitDELETE Delete procedure
     procedure.DELETE.input($1).query(async ({ input }) => {
         $1
     })
+snippet kitTryCatch Try Catch with return
+    try {
+        $1
+    } catch(err) {
+        console.error(err);
+        return {
+            status: false,
+            code: 500,
+            message: ""
+        } satisfies ErrorApiResponse;
+    }
