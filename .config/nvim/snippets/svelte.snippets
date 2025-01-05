@@ -11,3 +11,18 @@ snippet kitScriptTSChild Svelte script tag with child
         const { children }: { children: Snippet } = \$props();
         $1
     </script>
+snippet kitData Svelte data object for handling forms
+    const fields = [$1] as const;
+    type DataType = Record<
+        (typeof fields)[number],
+        {
+            value: string;
+            error?: string;
+        }
+    >;
+
+    const data = $state(Object.fromEntries(fields.map((item) => [item, { value: '' }])) as DataType);
+
+    const handle = async () => {
+
+    }
