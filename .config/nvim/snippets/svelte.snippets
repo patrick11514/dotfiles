@@ -26,3 +26,19 @@ snippet kitData Svelte data object for handling forms
     const handle = async () => {
 
     }
+snippet kitDataDefault Svelt data object for handling forms with array of default values
+    const fields = [$1] as const;
+    const defaultValues = [$2] as const;
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    type Indices<T extends readonly any[]> = Exclude<keyof T, keyof []>;
+
+    type DataType = {
+        [Index in Indices<typeof fields> as (typeof fields)[Index]]: {
+            value: (typeof defaultValues)[Index];
+            error?: string;
+        };
+    };
+    const data = \$state(Object.fromEntries(fields.map((item, idx) => [item, { value: defaultValues[idx] }])) as DataType);
+
+    const handle = async () => {};
