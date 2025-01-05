@@ -21,7 +21,7 @@ snippet kitData Svelte data object for handling forms
         }
     >;
 
-    const data = $state(Object.fromEntries(fields.map((item) => [item, { value: '' }])) as DataType);
+    const data = \$state(Object.fromEntries(fields.map((item) => [item, { value: '' }])) as DataType);
 
     const handle = async () => {
 
