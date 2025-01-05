@@ -1,0 +1,23 @@
+window {
+  background-color: --background;
+  border-radius: --radius;
+}
+
+entry {
+  background-color: transparent;
+  border: none;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+#entry {
+  font-weight: bold;
+}
+
+#entry #text {
+  margin-left: 0.5rem;
+}
+
+#entry:selected {
+  background-color: --darker;
+}
