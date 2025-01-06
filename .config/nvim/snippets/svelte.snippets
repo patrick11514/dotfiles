@@ -24,7 +24,11 @@ snippet kitData Svelte data object for handling forms
     const data = \$state(Object.fromEntries(fields.map((item) => [item, { value: '' }])) as DataType);
 
     const handle = async () => {
+        Object.values(data).forEach((item) => (item.error = undefined));
 
+        if (Object.values(data).some((item) => item.error !== undefined)) {
+            return;
+        }
     }
 snippet kitDataDefault Svelt data object for handling forms with array of default values
     const fields = [$1] as const;
@@ -41,4 +45,10 @@ snippet kitDataDefault Svelt data object for handling forms with array of defaul
     };
     const data = \$state(Object.fromEntries(fields.map((item, idx) => [item, { value: defaultValues[idx] }])) as DataType);
 
-    const handle = async () => {};
+    const handle = async () => {
+        Object.values(data).forEach((item) => (item.error = undefined));
+
+        if (Object.values(data).some((item) => item.error !== undefined)) {
+            return;
+        }
+    };
