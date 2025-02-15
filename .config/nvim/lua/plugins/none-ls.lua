@@ -25,6 +25,7 @@ return {
 				require("none-ls.diagnostics.eslint").with({
 					condition = function(utils)
 						return utils.root_has_file({ "eslint.config.js" })
+							or utils.root_has_file({ "eslint.config.mjs" })
 					end,
 				}),
 				null_ls.builtins.formatting.prettier,
