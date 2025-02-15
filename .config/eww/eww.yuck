@@ -28,7 +28,7 @@
 (defpoll day :interval "1440m"
     `date "+%d"`)
 (defpoll month :interval "1440m"
-    `date "+%M"`)
+    `date "+%m"`)
 (defpoll year :interval "1440m"
     `date "+%Y"`)
 
