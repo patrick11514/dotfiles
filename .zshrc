@@ -67,3 +67,6 @@ alias ta-vec-na-klavesy="wev"
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init - zsh)"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/home/patrick115/.lmstudio/bin"
