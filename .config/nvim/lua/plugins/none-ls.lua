@@ -40,11 +40,18 @@ return {
 						group = augroup,
 						buffer = bufnr,
 						callback = function()
-							-- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
-							-- on later neovim version, you should use vim.lsp.buf.format({ async = false }) instead
-							if vim.g.FormatOnSave then
-								vim.lsp.buf.format({ async = false })
+							if not vim.g.FormatOnSave then
+								return
 							end
+
+							vim.lsp.buf.format({
+								bufnr = bufnr,
+								filter = function(client)
+									return client.name == "null-ls"
+								end,
+								timeout_ms = 2000,
+								async = true,
+							})
 						end,
 					})
 				end

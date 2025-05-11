@@ -15,6 +15,7 @@ return {
 		lazy = false,
 		opts = {
 			auto_install = true,
+			handlers = {},
 		},
 	},
 	{
@@ -25,10 +26,10 @@ return {
 		config = function()
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 			local lspconfig = require("lspconfig")
-			local masonRegistry = require("mason-registry")
 
-			local vuels = masonRegistry.get_package("vue-language-server"):get_install_path()
-				.. "/node_modules/@vue/language-server"
+			local mason_path = vim.fn.stdpath("data") .. "/mason"
+			local vue_ls_path = mason_path .. "/packages/vue-language-server"
+			local vuels = vue_ls_path .. "/node_modules/@vue/language-server"
 
 			local function on_attach(client, bufnr)
 				if client.server_capabilities.inlayHintProvider then
