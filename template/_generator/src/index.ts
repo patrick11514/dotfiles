@@ -150,8 +150,12 @@ const handleFile = async (file: Dirent<string>) => {
 
   try {
     const content = await fs.readFile(filePath, "utf-8");
+    const originalStats = await fs.stat(filePath);
+
     const newContent = parseFile(content);
-    await fs.writeFile(destinationPath, newContent);
+    await fs.writeFile(destinationPath, newContent, {
+      mode: originalStats.mode,
+    });
   } catch (error) {
     if (error instanceof SyntaxError) {
       console.error(
