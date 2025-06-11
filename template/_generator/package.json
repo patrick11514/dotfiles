@@ -1,0 +1,22 @@
+{
+    "name": "dotfiles_generator",
+    "version": "0.0.1",
+    "main": "build/index.js",
+    "type": "module",
+    "scripts": {
+        "dev": "tsx watch ./src/index.ts",
+        "build": "rm -rf build && mkdir -p build && tsc && tsc-alias",
+        "start": "node ./build/index.js",
+        "check": "tsc --noEmit"
+    },
+    "devDependencies": {
+        "@types/cli-color": "^2.0.6",
+        "@types/node": "^24.0.0",
+        "@types/strip-color": "^0.1.2"
+    },
+    "dependencies": {
+        "cli-color": "^2.0.4",
+        "strip-color": "^0.1.0",
+        "tsc-alias": "^1.8.16"
+    }
+}
