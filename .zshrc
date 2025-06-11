@@ -70,6 +70,8 @@ export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init - zsh)"
 
+export PATH="$PATH:/home/patrick115/dotfiles/template/_generator"
+
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/home/patrick115/.lmstudio/bin"
 

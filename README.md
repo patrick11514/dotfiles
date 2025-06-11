@@ -6,12 +6,13 @@
 $ yay -S
     stow git # to manage dotfiles
     zsh zoxide exa # shell things
-    hyprland hyprpaper hyprlock eww cliphist mako wofi mate-polkit hypridle # hyprland things
+    hyprland hyprpaper hyprlock eww nodejs cliphist mate-polkit hypridle # hyprland things
     playerctl jq # programs used in eww tab
-    discord-canary kitty lf thunar wofi-emoji neovim ripgrep ulauncher # other programs
+    discord kitty lf thunar wofi-emoji neovim ripgrep ulauncher # other programs
     slurp grim # screenshotting
     qt5ct qt6ct breeze5 # qt things
     network-manager-applet # network manager
+    kwalletmanager kwallet-pam kwallet-cli # kwallet things
 ```
 
 ## Installation
