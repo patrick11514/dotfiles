@@ -1,0 +1,54 @@
+snippet kitScriptTS Svelte script tag typescript
+    <script lang="ts">
+        const props = \$props();
+        $1
+    </script>
+
+snippet kitScriptTSChild Svelte script tag with child
+    <script lang="ts">
+        import type { Snippet } from 'svelte';
+
+        const { children }: { children: Snippet } = \$props();
+        $1
+    </script>
+snippet kitData Svelte data object for handling forms
+    const fields = [$1] as const;
+    type DataType = Record<
+        (typeof fields)[number],
+        {
+            value: string;
+            error?: string;
+        }
+    >;
+
+    const data = \$state(Object.fromEntries(fields.map((item) => [item, { value: '' }])) as DataType);
+
+    const handle = async () => {
+        Object.values(data).forEach((item) => (item.error = undefined));
+
+        if (Object.values(data).some((item) => item.error !== undefined)) {
+            return;
+        }
+    }
+snippet kitDataDefault Svelt data object for handling forms with array of default values
+    const fields = [$1] as const;
+    const defaultValues = [$2] as const;
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    type Indices<T extends readonly any[]> = Exclude<keyof T, keyof []>;
+
+    type DataType = {
+        [Index in Indices<typeof fields> as (typeof fields)[Index]]: {
+            value: (typeof defaultValues)[Index];
+            error?: string;
+        };
+    };
+    const data = \$state(Object.fromEntries(fields.map((item, idx) => [item, { value: defaultValues[idx] }])) as DataType);
+
+    const handle = async () => {
+        Object.values(data).forEach((item) => (item.error = undefined));
+
+        if (Object.values(data).some((item) => item.error !== undefined)) {
+            return;
+        }
+    };

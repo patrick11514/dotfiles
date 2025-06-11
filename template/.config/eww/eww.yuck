@@ -1,0 +1,265 @@
+; workspace info
+(defvar workspaces 10)
+(defpoll current_workspace :interval "0.2s"
+    `hyprctl activeworkspace -j | jq ".id"`)
+{{ if platform == "pc" }}
+(deflisten workspace_list `./cli/bin.js --genArray 10`)
+{{ else }}
+(deflisten workspace_list `./cli/bin.js --genArray 6`)
+{{ end }}
+
+; window info
+(defpoll current_title :interval "1s"
+    `hyprctl activewindow -j | jq -r .title`)
+
+; music info
+(deflisten artist
+    `playerctl --follow metadata --format "{{ artist }}"`)
+(deflisten song
+    `playerctl --follow metadata --format "{{ title }}"`)
+(deflisten art :initial "/home/patrick115/.config/eww/music.png"
+    `./cli/bin.js --artwork --follow`)
+(defpoll status :interval "1s"
+    `playerctl status`)
+
+; date
+(defpoll time :interval "1s"
+    `date "+%H:%M"`)
+(defpoll rest_of_date :interval "1s"
+    `date "+:%S %d.%m.%Y"`)
+(defvar show_full_date false)
+; calendar
+(defpoll day :interval "1440m"
+    `date "+%d"`)
+(defpoll month :interval "1440m"
+    `date "+%m"`)
+(defpoll year :interval "1440m"
+    `date "+%Y"`)
+
+; eww
+(defvar eww "/usr/bin/eww")
+
+; audio
+(defvar audio_device "@DEFAULT_AUDIO_SINK@")
+(defpoll volume :interval "1s"
+    `wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print $2}'`)
+(defpoll muted :interval "1s"
+    `pactl get-sink-mute @DEFAULT_SINK@ | awk '{print $2}'`)
+
+; brightness
+(defpoll brightnessvalue :interval "1s" 
+    `brightnessctl get`)
+(defpoll maxbrightness :interval "1s" 
+    `brightnessctl max`)
+
+;stats
+(defvar batteryName "BAT1")
+
+(defwidget icon [icon text ?post]
+    (label :yalign 0.5 :text "${icon}   ${text}${post == '' ? '' : ' ${post}'}"))
+
+(defwidget main []
+    (centerbox
+        :class "main"
+        :orientation "h"
+        (workspaces)
+        (center)
+        (right)))
+
+(defwidget workspaces []
+    (box :halign "start"
+         :vexpand true
+         :class "workspaces"         
+        (for workspace in workspace_list
+            (button :onclick "hyprctl dispatch workspace ${workspace}" 
+                    :class {current_workspace == workspace ? "active" : ""}
+                workspace))
+        (label :visible false
+            :text current_workspace)))
+
+(defwidget center []
+    (button :onclick "./cli/bin.js --toggle-song"
+        (box
+            (box :visible {song != ""} (icon :icon ""
+                                             :post { status == "Playing" ? "" : "" } 
+                                             :text "${song} - ${artist}"))
+            (box :visible {song == ""} (label :text { (current_title?:"") != ""  ? "${substring(current_title, 0, 80)}" : ""})))))
+
+(defwidget sep []
+    (box :class "separator"
+        (label :text "|")))
+
+(defwidget iconText [icon text class ?tooltip]
+    (box :space-evenly false
+         :tooltip tooltip
+        (label :text "${icon} " 
+            :class "${class}") 
+        (label :text text)))
+
+(defwidget status [icon value ?type ?tooltip ?tooltipType]
+    (iconText 
+            :icon "${icon} " 
+            :text "${round(value, 2)}${type == '' ? '%' : type}"
+            :tooltip { tooltip == "" ? "${round(value, 2)}${type == '' ? '%' : type}" : "${round(tooltip, 2)}${tooltipType == '' ? '%' : tooltipType}" }
+            :class { "${value}" < 25 ? "green" :
+                   "${value}" < 50 ? "yellow" : 
+                   "${value}" < 75 ? "orange" : "red" }))
+
+(defwidget right []
+    (box :space-evenly false
+         :halign "end"
+         :class "right"
+        (status 
+            :icon "" 
+            :value "${EWW_CPU.avg}")
+        (status 
+            :icon ""
+            :value "${EWW_RAM.used_mem_perc}"
+            :tooltip "${EWW_RAM.used_mem / (1024 * 1024 * 1024)}"
+            :tooltipType "GB")
+        (sep)
+        (sound)
+        (brightness)
+        (sep)
+        (systray)
+        (battery)
+        (timedate)))
+
+(defwidget timedate []
+    (eventbox :onhover "${eww} update show_full_date=true"
+              :onhoverlost "${eww} update show_full_date=false"
+              :onclick "./cli/bin.js --toggle-calendar"
+        (box :space-evenly false
+             :halign "end"
+             :class "time"
+            (icon :icon "" :text time )
+            (revealer :reveal show_full_date
+                      :transition "slideleft"
+                      :duration "350ms"
+{{ if platform == "pc" }}
+                (label :text rest_of_date)))))
+{{ else }}
+                (label :yalign 0.48 :text rest_of_date)))))
+{{ end }}
+
+(defwidget bar [icon current onchange click iconClass ?max ?reveal]
+    (box :space-evenly false
+         :class "progress"
+        (button :class iconClass 
+                :onclick click 
+                "${icon}  ")
+        (revealer :reveal reveal
+                  :transition "slideright"
+            (children))
+        (scale :min 0
+               :max { max != "" ? max : 100 }
+               :value current
+               :active {onchange != ""}
+               :onchange onchange)))
+
+(defwidget sound []
+    (bar :click { 
+        muted == "yes" ? 
+        "wpctl set-mute ${audio_device} 0 && ${eww} update muted=no" : 
+        "wpctl set-mute ${audio_device} 1 && ${eww} update muted=yes"} 
+        :icon ""
+        :current { muted == "yes" ? 0 : volume * 100 }
+        :onchange "wpctl set-volume ${audio_device} {}%"
+        :iconClass { muted == "yes" ? "headphones-off" : "headphones" }))
+
+(defwidget brightness []
+    (bar :click { 
+        brightnessvalue == 0 ? 
+        "brightnessctl -q s ${maxbrightness}" : 
+        "brightnessctl -q s 0" }
+        :icon ""
+        :current {brightnessvalue / maxbrightness * 100}
+        :onchange "brightnessctl -q s {}%"
+        :iconClass "sun"))
+
+(defwidget battery []
+    (revealer :reveal {"${EWW_BATTERY}" != ""}
+              :transition "slideleft"
+                (box
+                    :tooltip { 
+                        "${EWW_BATTERY[batteryName].status}" == "Charging" ? 
+                        "${EWW_BATTERY[batteryName].capacity}% (charging)" : 
+                        "${EWW_BATTERY[batteryName].capacity}%" 
+                    }
+                    :space-evenly false
+                    (label
+                        :text {
+                            "${EWW_BATTERY[batteryName].capacity}" > 80 ? " " : 
+                            "${EWW_BATTERY[batteryName].capacity}" > 60 ? " " : 
+                            "${EWW_BATTERY[batteryName].capacity}" > 40 ? " " : 
+                            "${EWW_BATTERY[batteryName].capacity}" > 20 ? " " : " " 
+                            }
+                        :class {
+                          "${EWW_BATTERY[batteryName].capacity}" > 80 ? "battery-fully" : 
+                          "${EWW_BATTERY[batteryName].capacity}" > 60 ? "battery-full" : 
+                          "${EWW_BATTERY[batteryName].capacity}" > 40 ? "battery-middle" : 
+                          "${EWW_BATTERY[batteryName].capacity}" > 20 ? "battery-low" : "battery-critical" 
+                        })
+                    (revealer :reveal { "${EWW_BATTERY[batteryName].status}" == "Charging" }
+                              :transition "slideleft"
+                                (label :text "" :class "bolt")))))
+
+(defwindow bar
+    :geometry (geometry :x "0%"
+                        :y "20px"
+                        :width "98.5%"
+                        :height "40px"
+                        :anchor "top center"
+              )
+    :exclusive true
+    (main))
+
+;;;;;;;;;;;;;;;;;;;
+
+(defwidget cal []
+    (box :class "calendar"
+         :halign "fill"
+         :valign "fill"
+    (calendar :day day
+              :month month
+              :year year)))
+
+(defwindow calendar
+    :geometry (geometry :x "20px"
+                        :y "10px"
+                        :width "10%"
+                        :height "200px"
+                        :anchor "top right" )
+    :stacking "fg"
+    (cal))
+
+;;;;;;;;;;;;;;;;;;;
+
+
+(defwindow player
+    :geometry (geometry :x "20px"
+                        :y "10px"
+                        :width "20%"
+                        :height "150px"
+                        :anchor "top center")
+    (box :orientation "h" 
+         :class "player"
+         :space-evenly false
+        (box :class "img" 
+             :style { song == "" ? "background-image: url('/home/patrick115/.config/eww/music.png')" : "background-image: url('${art}')" } )
+        (box :class "info"
+             :orientation "v"
+             :hexpand true
+             :space-evenly false
+            (label :class "name" :text { song == "" ? "No Song" : song} )
+            (label :class "artist" :text { artist == "" ? "No Artist" : artist} )
+            (box :class "controls"
+                 :vexpand true
+                (button :onclick "playerctl previous" "󰙤")
+                (button :onclick { 
+                            status == "Playing" 
+                            ? "playerctl pause && ${eww} update status=Paused"
+                            : "playerctl play && ${eww} update status=Playing"
+                        }
+                        { status == "Playing" ? "󰏦" : "󰐍" })
+                (button :onclick "playerctl next" "󰙢")))))
