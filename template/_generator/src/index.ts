@@ -115,7 +115,7 @@ const parseFile = (content: string) => {
       stack.pop();
     } else {
       if (stack.every((s) => s.shouldEvaluate)) {
-        parsed.push(line);
+        parsed.push(raw); // since we want to keep the original line
       }
     }
   }

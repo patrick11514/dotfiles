@@ -64,9 +64,14 @@ eval "$(zoxide init zsh --cmd cd)"
 alias c="~/scripts/startZed.sh"
 alias gitArchive="~/scripts/gitArchive.sh"
 alias ta-vec-na-klavesy="wev"
+alias lsblk="lsblk -o NAME,MAJ:MIN,RM,SIZE,RO,TYPE,MOUNTPOINTS,UUID"
+
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init - zsh)"
 
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/home/patrick115/.lmstudio/bin"
+
+# bun completions
+[ -s "/home/patrick115/.bun/_bun" ] && source "/home/patrick115/.bun/_bun"
