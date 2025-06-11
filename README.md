@@ -29,37 +29,22 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 $ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 ```
 
-### Dotfiles
+### Dotfiles + Eww + Other configs
 
 ```BASH
 $ git clone git@github.com:patrick11514/dotfiles.git
 $ cd dotfiles
-$ stow --adopt .
-```
-
-### Configuration
-
-#### Hyprland
-
-- Configure correct displays in .config/hypr/hyprland.conf ($monitor-left, $monitor-right and $monitor-center), or comment these variables. These wariables are used in config file to set workspaces etc...
-- Hyprpaper at: .config/hypr/hyprpaper.conf also configure correct displays + parth to your background image
-
-### EWW
-
-- First you need to build cli tool
-
-```BASH
-$ cd .config/eww/cli
-# for npm users
+# First we need to build dotfiles generator
+$ cd template/_generator
 $ npm install
 $ npm run build
-
-# for pnpm users
-$ pnpm install
-$ pnpm build
+# Then we generate our dotfiles
+$ npm run start --platform=nb/pc # nb = notebook config, pc = desktop config
+# Now we can build eww tool
+$ cd ../../.config/eww/cli
+$ npm install
+$ npm run build
+# Then we can install our dotfiles
+$ cd ../../..
+$ stow --adopt .
 ```
-
-- Then configure number of workspaces and correct displays
-- Configuration is at: .config/eww/eww.yuck
-  - Change variables: workspaces and workspace_list, where param for genArray set tu number of your workspaces
-  - Change displays replace every :monitor 1 with your monitor number
