@@ -12,7 +12,8 @@
     "devDependencies": {
         "@types/cli-color": "^2.0.6",
         "@types/node": "^24.0.0",
-        "@types/strip-color": "^0.1.2"
+        "@types/strip-color": "^0.1.2",
+        "typescript": "^5.8.3"
     },
     "dependencies": {
         "cli-color": "^2.0.4",
