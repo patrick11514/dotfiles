@@ -52,3 +52,11 @@ snippet kitDataDefault Svelt data object for handling forms with array of defaul
             return;
         }
     };
+snippet kitScriptTSElement Svelte script tag for elements
+    <script lang="ts">
+        import type { SvelteHTMLElements } from "svelte/elements";
+        const { children, class: cls = "", ...props }: SvelteHTMLElements["$1"] = \$props();
+    </script>
+    <$1 class={cls} {...props}> 
+       {@render children?.()}
+    </$1>
