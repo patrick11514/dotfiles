@@ -6,7 +6,7 @@ return {
 		config = function()
 			require("telescope").setup({
 				defaults = {
-					file_ignore_patterns = { "node_modules", ".git", "build", "dist },
+					file_ignore_patterns = { "node_modules", ".git", "build", "dist" },
 				},
 			})
 			local builtin = require("telescope.builtin")
