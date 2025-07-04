@@ -1,5 +1,17 @@
 # Dotfiles
 
+## Overview
+
+The repository consists of several parts:
+
+- Root folder (.config, .gnupg, .local, .\*, ...) contains the static files, which are same on all devices. And are directly symklinked to the home directory.
+- `template` folder, which cotains two thigns:
+  - \_generator - a tool which is used to generate the dotfiles
+  - rest of files - these are template files, which are parsed by the generator, and final version is placed in the root folder.
+
+The dotfiles are primarly designed for Arch Linux + Hyprland, so use them at your own risk.
+Also the dotfiles are specific to my setup, so you will need to modify them to fit your needs, and I will not provide support for that.
+
 ## Pre-requisites
 
 ```BASH
