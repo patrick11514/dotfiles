@@ -44,3 +44,44 @@ snippet kitTryCatch Try Catch with return
             message: ""
         } satisfies ErrorApiResponse;
     }
+snippet nestget NestJS get request
+    @Get('$1') 
+    @ApiOkResponse({
+        description: '',
+    })
+    async $2() {
+
+    }
+
+snippet nestpost NestJS post request
+    @Post('$1')
+    @ApiCreatedResponse({
+        description: '',
+    })
+    @ApiBadRequestResponse({
+        description: '',
+    })
+    async $2(@Body() body: any) {
+
+    }
+
+snippet nestput NestJS put request
+    @Put('$1')
+    @ApiOkResponse({
+        description: '',
+    })
+    @ApiBadRequestResponse({
+        description: '',
+    })
+    async $2(@Body() body: any) {
+
+    }
+
+snippet nestdelete NestJS delete request
+    @Delete('$1')
+    @ApiOkResponse({
+        description: '',
+    })
+    async $2() {
+
+    }
