@@ -21,18 +21,13 @@ return {
 		opts = {
 			ensure_installed = {
 				"lua_ls",
-				"clangd",
 				"svelte",
-				"tsserver",
 				"bashls",
 				"cssls",
-				"cmake",
 				"html",
 				"jsonls",
 				"rust_analyzer",
-				"pyright",
 				"glsl_analyzer",
-				"volar",
 			},
 			handlers = {
 				function(server)
