@@ -10,7 +10,18 @@ return {
 		config = function()
 			-- Global keymaps
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
-			vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})
+			vim.keymap.set("n", "<leader>gd", function()
+				local params = vim.lsp.util.make_position_params()
+				vim.lsp.buf_request(0, "textDocument/definition", params, function(err, result, ctx, _)
+					if not result or vim.tbl_isempty(result) then
+						vim.notify("No definition found", vim.log.levels.WARN)
+						return
+					end
+
+					-- ✅ New function name:
+					vim.lsp.util.jump_to_location(result[1], "utf-8", true)
+				end)
+			end, { silent = true })
 			vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
 			vim.api.nvim_set_keymap("n", "<leader>e", "<cmd>lua vim.diagnostic.open_float()<CR>", {})
 		end,
