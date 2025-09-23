@@ -119,10 +119,14 @@
             :tooltipType "GB")
         (sep)
         (sound)
+{{ if platform == "nb" }}
         (brightness)
+{{ end }}
         (sep)
         (systray)
+{{ if platform == "nb" }}
         (battery)
+{{ end }}
         (timedate)))
 
 (defwidget timedate []
