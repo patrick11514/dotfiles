@@ -1,10 +1,10 @@
-import fs from "node:fs/promises";
-import process from "node:process";
-import { isDirectory, isFile } from "./lib/utils";
-import Logger from "./lib/logger";
-import Path from "node:path";
 import { Dirent } from "node:fs";
+import fs from "node:fs/promises";
+import Path from "node:path";
+import process from "node:process";
 import { ParseError, SyntaxError } from "./lib/errors";
+import Logger from "./lib/logger";
+import { isDirectory, isFile } from "./lib/utils";
 
 const parseArgs = (args: string[]) => {
   const parsedArgs: Record<string, string> = {};
@@ -137,6 +137,19 @@ const handleFile = async (file: Dirent<string>) => {
   }
 
   if (file.isSymbolicLink()) {
+    if (file.name == "rules.conf") {
+      //copy symbolic link as is
+      const filePath = Path.join(file.parentPath, file.name);
+      const destinationPath = Path.join(
+        "../" /* For the destionation folder */,
+        file.parentPath,
+        file.name,
+      );
+
+      const symlinkTarget = await fs.readlink(filePath);
+      //ignore error if symlink already exists
+      await fs.symlink(symlinkTarget, destinationPath).catch(() => {});
+    }
     //skip symbolic links
     return;
   }

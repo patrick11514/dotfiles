@@ -106,11 +106,20 @@ const getPath = async (imageOrUrl: string) => {
     }
 };
 
+const getWorkspaceCount = async ()=> {
+    {{ if platform == "pc" }}
+        return "10";
+    {{ else }}
+        const lockFile = fs.existsSync("/tmp/.move_workspaces.lock"); 
+        return lockFile ? "10" : "6";
+    {{ end }}
+}
+
 const main = async (args: Args): Promise<string | void> => {
     if (args.genArray) {
         let arrayMax: number;
         try {
-            arrayMax = parseInt(args.genArray);
+            arrayMax = parseInt(await getWorkspaceCount());
         } catch (_) {
             throw Error('Please enter number as argument');
         }
@@ -150,7 +159,7 @@ const main = async (args: Args): Promise<string | void> => {
                 console.log(await getPath(data.trim()));
             });
         });
-    }
+    } 
 };
 
 main(options).then(console.log);
