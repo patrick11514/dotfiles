@@ -174,11 +174,11 @@
 (defwidget brightness []
     (bar :click { 
         brightnessvalue == 0 ? 
-        "brightnessctl -q s ${maxbrightness}" : 
-        "brightnessctl -q s 0" }
+        "~/scripts/brightness.sh set ${maxbrightness}" : 
+        "~/scripts/brightness.sh set 0" }
         :icon ""
         :current {brightnessvalue / maxbrightness * 100}
-        :onchange "brightnessctl -q s {}%"
+        :onchange "~/scripts/brightness.sh set {}%"
         :iconClass "sun"))
 
 (defwidget battery []
