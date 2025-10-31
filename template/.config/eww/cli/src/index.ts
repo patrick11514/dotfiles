@@ -3,10 +3,14 @@ import { exec } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 
+const movedWorkspaces = () => {
+    return fs.existsSync("/tmp/.move_workspaces.lock");
+}
+
 {{ if platform == "pc" }}
 const monitor = 1;
 {{ else }}
-const monitor = 0;
+const monitor = movedWorkspaces() ? 1 : 0;
 {{ end }}
 
 program
@@ -106,12 +110,11 @@ const getPath = async (imageOrUrl: string) => {
     }
 };
 
-const getWorkspaceCount = async ()=> {
+const getWorkspaceCount = ()=> {
     {{ if platform == "pc" }}
         return "10";
     {{ else }}
-        const lockFile = fs.existsSync("/tmp/.move_workspaces.lock"); 
-        return lockFile ? "10" : "6";
+        return movedWorkspaces() ? "10" : "6";
     {{ end }}
 }
 
@@ -119,7 +122,7 @@ const main = async (args: Args): Promise<string | void> => {
     if (args.genArray) {
         let arrayMax: number;
         try {
-            arrayMax = parseInt(await getWorkspaceCount());
+            arrayMax = parseInt(getWorkspaceCount());
         } catch (_) {
             throw Error('Please enter number as argument');
         }
