@@ -48,10 +48,10 @@ const parseFile = (content: string) => {
   }[] = [];
 
   const matches = {
-    if: /{{\s*if\s+(.+?)\s*}}/,
-    elseIf: /{{\s*else\s+if\s+(.+?)\s*}}/,
-    else: /{{\s*else\s*}}/,
-    endIf: /{{\s*end\s*}}/,
+    if: /^\s*{{\s*if\s+(.+?)\s*}}\s*$/,
+    elseIf: /^\s*{{\s*else\s+if\s+(.+?)\s*}}\s*$/,
+    else: /^\s*{{\s*else\s*}}\s*$/,
+    endIf: /^\s*{{\s*end\s*}}\s*$/,
   };
 
   let _line = 0;
