@@ -83,7 +83,11 @@
             (box :visible {song != ""} (icon :icon ""
                                              :post { status == "Playing" ? "" : "" } 
                                              :text "${song} - ${artist}"))
+{{ if platform == "pc" }}
             (box :visible {song == ""} (label :text { (current_title?:"") != ""  ? "${substring(current_title, 0, 80)}" : ""})))))
+{{ else }}
+            (box :visible {song == ""} (label :text { (current_title?:"") != ""  ? "${substring(current_title, 0, 60)}" : ""})))))
+{{ end }}
 
 (defwidget sep []
     (box :class "separator"
