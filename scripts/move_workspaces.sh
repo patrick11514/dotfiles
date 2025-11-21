@@ -6,10 +6,9 @@ if [ -f /tmp/.move_workspaces.lock ]; then
     ln -sf ~/.config/hypr/rules/single.conf ~/.config/hypr/rules.conf
     hyprctl reload
 
-    for i in {1..8}
-    do
-        hyprctl dispatch moveworkspacetomonitor $i eDP-1
-    done
+    hyprctl --batch "$(
+        for i in {1..10}; do printf "dispatch moveworkspacetomonitor %s eDP-1;" $i; done
+    )"
 
     hyprctl dispatch movetoworkspace 5,class\:\(discord\)
     hyprctl dispatch movetoworkspace 4,class\:\(Slack\)
@@ -21,14 +20,11 @@ else
     ln -sf ~/.config/hypr/rules/dual.conf ~/.config/hypr/rules.conf
     hyprctl reload
 
-    for i in {1..8}
-    do
-        hyprctl dispatch moveworkspacetomonitor $i HDMI-A-1
-    done
-    for i in {9..10}
-    do
-        hyprctl dispatch moveworkspacetomonitor $i eDP-1
-    done
+
+    hyprctl --batch "$(
+        for i in {1..8}; do printf "dispatch moveworkspacetomonitor %s HDMI-A-1;" $i; done
+        for i in {9..10}; do printf "dispatch moveworkspacetomonitor %s eDP-1;" $i; done
+    )"
 
     hyprctl dispatch movetoworkspace 9,class\:\(discord\)
     hyprctl dispatch movetoworkspace 10,class\:\(Slack\)
