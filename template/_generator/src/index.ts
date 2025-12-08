@@ -137,7 +137,7 @@ const handleFile = async (file: Dirent<string>) => {
   }
 
   if (file.isSymbolicLink()) {
-    if (file.name == "rules.conf") {
+    if (file.name == "rules.conf" || file.name == "monitors.conf") {
       //copy symbolic link as is
       const filePath = Path.join(file.parentPath, file.name);
       const destinationPath = Path.join(

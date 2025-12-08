@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const movedWorkspaces = () => {
-    return fs.existsSync("/tmp/.move_workspaces.lock");
+    return fs.existsSync("/tmp/.move_workspaces.lock") || fs.existsSync("/tmp/.home_layout.lock");
 }
 
 {{ if platform == "pc" }}
