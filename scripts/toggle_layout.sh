@@ -5,6 +5,8 @@ if [ -f /tmp/.home_layout.lock ]; then
 
     ln -sf ~/.config/hypr/monitors/work.conf ~/.config/hypr/monitors.conf
     ln -sf ~/.config/hypr/rules/single.conf ~/.config/hypr/rules.conf
+    
+    hyprctl dispatch dpms on eDP-1
     hyprctl reload
 
     hyprctl --batch "$(
@@ -20,6 +22,8 @@ else
 
     ln -sf ~/.config/hypr/monitors/home.conf ~/.config/hypr/monitors.conf
     ln -sf ~/.config/hypr/rules/home.conf ~/.config/hypr/rules.conf
+
+    hyprctl dispatch dpms off eDP-1
     hyprctl reload
 
     hyprctl --batch "$(
