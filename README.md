@@ -23,7 +23,7 @@ $ yay -S
     discord kitty thunar wofi-emoji neovim ripgrep ulauncher file-roller # other programs
     slurp grim # screenshotting
     qt5ct qt6ct breeze5 # qt things
-    adw-gtk-theme nwg-look dconf-editor # gtk things
+    adw-gtk-theme nwg-look dconf-editor xdg-desktop-portal-gtk # gtk things
     network-manager-applet # network manager
     kwalletmanager kwallet-pam kwalletcli # kwallet things
 ```
