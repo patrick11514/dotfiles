@@ -132,6 +132,29 @@ tooltip label {
     animation-direction: alternate;
 }
 
+#custom-power_profile {
+    background-color: @background;
+    opacity: 0.95;
+    padding: 0 10px;
+    margin: 0 4px;
+    border-radius: 15px;
+    color: @light;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    min-width: 20px;
+}
+
+#custom-power_profile.low-power {
+    color: #a6e3a1; /* green-ish */
+}
+
+#custom-power_profile.balanced {
+    color: #89b4fa; /* blue-ish */
+}
+
+#custom-power_profile.performance {
+    color: #f38ba8; /* red-ish */
+}
+
 #clock {
     font-weight: bold;
     color: @darker;

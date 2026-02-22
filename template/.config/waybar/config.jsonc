@@ -20,6 +20,7 @@
         "pulseaudio",
 {{ if platform == "nb" }}
         "backlight",
+        "custom/power_profile",
         "battery",
 {{ end }}
         "tray",
@@ -118,6 +119,15 @@
         "format-icons": ["", "", "", "", ""]
     },
 {{ end }}
+
+    "custom/power_profile": {
+        "format": "{}",
+        "tooltip": true,
+        "return-type": "json",
+        "exec": "~/dotfiles/scripts/power_profile.sh",
+        "on-click": "~/dotfiles/scripts/power_profile.sh toggle",
+        "interval": 5
+    },
 
     "tray": {
         "icon-size": 18,

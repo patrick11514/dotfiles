@@ -57,4 +57,14 @@ $ npm run start --platform=nb/pc # nb = notebook config, pc = desktop config
 # Then we can install our dotfiles
 $ cd ../../..
 $ stow --adopt .
+
+## Post-Installation
+
+### Power Profile Switching (Laptop only)
+
+To enable power profile switching (Performance/Balanced/Low-Power) from the Waybar without entering a password each time, run the setup script:
+
+```BASH
+$ sudo ./scripts/setup_power_sudo.sh
+```
 ```
