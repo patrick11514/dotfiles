@@ -1,4 +1,7 @@
 {
+{{ if platform == "pc" }}
+    "output": "DP-2",
+{{ end }}
     "layer": "top",
     "position": "top",
     "height": 34,
