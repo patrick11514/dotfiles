@@ -52,7 +52,11 @@
     "custom/prev": {
         "format": "  ",
         "tooltip": false,
-        "on-click": "playerctl previous"
+        "on-click": "playerctl previous",
+        "exec": "playerctl status 2>/dev/null",
+        "interval": 1,
+        "return-type": "",
+        "exec-if": "playerctl status 2>/dev/null | grep -E 'Playing|Paused'"
     },
 
     "mpris": {
@@ -70,16 +74,20 @@
     "custom/next": {
         "format": "  ",
         "tooltip": false,
-        "on-click": "playerctl next"
+        "on-click": "playerctl next",
+        "exec": "playerctl status 2>/dev/null",
+        "interval": 1,
+        "return-type": "",
+        "exec-if": "playerctl status 2>/dev/null | grep -E 'Playing|Paused'"
     },
 
     "pulseaudio": {
-        "format": "{icon}  {volume}%",
-        "format-muted": "  Muted",
+        "format": "{icon} {volume}%",
+        "format-muted": "  Muted",
         "format-icons": {
             "headphone": "",
-            "hands-free": "",
-            "headset": "",
+            "hands-free": "󰂑",
+            "headset": "󰂑",
             "phone": "",
             "portable": "",
             "car": "",
@@ -91,8 +99,8 @@
 
 {{ if platform == "nb" }}
     "backlight": {
-        "format": "{icon}  {percent}%",
-        "format-icons": ["", "", ""],
+        "format": "{icon} {percent}%",
+        "format-icons": ["󰃞", "󰃟", "󰃠"],
         "on-scroll-up": "brightnessctl set +5%",
         "on-scroll-down": "brightnessctl set 5%-"
     },

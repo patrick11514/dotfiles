@@ -18,7 +18,8 @@ Also the dotfiles are specific to my setup, so you will need to modify them to f
 $ yay -S
     stow git # to manage dotfiles
     zsh zoxide exa # shell things
-    hyprland hyprpaper hyprlock eww cliphist mate-polkit hypridle xdg-portal-hyprland # hyprland things
+    hyprland hyprpaper hyprlock waybar eww cliphist mate-polkit hypridle xdg-portal-hyprland # hyprland things
+    ttf-jetbrains-mono-nerd # fonts
     playerctl jq nodejs # programs used in eww tab
     discord kitty thunar wofi-emoji neovim ripgrep ulauncher file-roller # other programs
     slurp grim # screenshotting
