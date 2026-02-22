@@ -1,0 +1,140 @@
+@import "colors.css";
+
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrainsMono Nerd Font", "Roboto", sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    min-height: 0;
+}
+
+window#waybar {
+    background: transparent;
+    color: @light;
+}
+
+tooltip {
+    background: @background;
+    border-radius: 15px;
+    border: 1px solid @hover;
+}
+
+tooltip label {
+    color: @light;
+}
+
+/* Common module styling: "Pill" shape */
+#workspaces,
+#pulseaudio,
+#backlight,
+#battery,
+#tray,
+#clock {
+    background-color: @background;
+    opacity: 0.95;
+    padding: 0 10px;
+    margin: 0 4px;
+    border-radius: 15px;
+    color: @light;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Workspaces specific */
+#workspaces button {
+    padding: 0 5px;
+    background-color: transparent;
+    color: @light;
+    transition: all 0.3s ease;
+}
+
+#workspaces button:hover {
+    background: @hover;
+    box-shadow: inherit;
+    text-shadow: inherit;
+    border-radius: inherit;
+}
+
+#workspaces button.active {
+    color: @darker;
+    text-shadow: 0 0 2px @darker;
+}
+
+#workspaces button.urgent {
+    color: #ff0000;
+}
+
+/* Music Group Styling */
+#music, #group-music {
+    background-color: @background;
+    opacity: 0.95;
+    padding: 0 5px;
+    margin: 0 4px;
+    border-radius: 15px;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+#custom-prev, #mpris, #custom-next {
+    background-color: transparent;
+    padding: 0 10px;
+    margin: 0;
+    color: @light;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+#custom-prev {
+    /* No border radius needed on children if container handles it */
+    padding-right: 5px;
+    margin-right: 0;
+}
+
+#mpris {
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+#custom-next {
+    padding-left: 5px;
+    margin-left: 0;
+}
+
+#custom-prev:hover, #custom-next:hover {
+    color: @darker;
+}
+
+/* Right Modules specific colors/tweaks */
+#pulseaudio.muted {
+    color: @hover;
+}
+
+#battery.charging {
+    color: @darker;
+}
+
+#battery.warning:not(.charging) {
+    color: @darker;
+}
+
+#battery.critical:not(.charging) {
+    color: #ff0000;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+#clock {
+    font-weight: bold;
+    color: @darker;
+}
+
+@keyframes blink {
+    to {
+        background-color: @hover;
+        color: @light;
+    }
+}

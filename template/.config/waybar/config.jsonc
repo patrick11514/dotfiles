@@ -1,0 +1,121 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 34,
+    "spacing": 4,
+    "margin-top": 6,
+    "margin-bottom": 0,
+    
+    // Modules layout
+    "modules-left": [
+        "hyprland/workspaces"
+    ],
+    "modules-center": [
+        "group/music"
+    ],
+    "modules-right": [
+        "pulseaudio",
+{{ if platform == "nb" }}
+        "backlight",
+        "battery",
+{{ end }}
+        "tray",
+        "clock"
+    ],
+
+    // Module Configurations
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "on-click": "activate",
+        "all-outputs": true,
+        "format-icons": {
+            "active": "",
+            "default": ""
+        },
+        "persistent-workspaces": {
+            "*": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        }
+    },
+
+    "group/music": {
+        "orientation": "horizontal",
+        "modules": [
+            "custom/prev",
+            "mpris",
+            "custom/next"
+        ]
+    },
+
+    "custom/prev": {
+        "format": "  ",
+        "tooltip": false,
+        "on-click": "playerctl previous"
+    },
+
+    "mpris": {
+        "format": "{status_icon} {title} - {artist}  {position}/{length}",
+        "status-icons": {
+            "playing": "",
+            "paused": "[P]",
+            "stopped": "[S]"
+        },
+        "max-length": 80,
+        "interval": 1,
+        "tooltip": false
+    },
+
+    "custom/next": {
+        "format": "  ",
+        "tooltip": false,
+        "on-click": "playerctl next"
+    },
+
+    "pulseaudio": {
+        "format": "{icon}  {volume}%",
+        "format-muted": "  Muted",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", "", ""]
+        },
+        "on-click": "pavucontrol",
+        "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+    },
+
+{{ if platform == "nb" }}
+    "backlight": {
+        "format": "{icon}  {percent}%",
+        "format-icons": ["", "", ""],
+        "on-scroll-up": "brightnessctl set +5%",
+        "on-scroll-down": "brightnessctl set 5%-"
+    },
+
+    "battery": {
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-alt": "{time} {icon}",
+        "format-icons": ["", "", "", "", ""]
+    },
+{{ end }}
+
+    "tray": {
+        "icon-size": 18,
+        "spacing": 10
+    },
+
+    "clock": {
+        "format": "   {:%H:%M}",
+        "format-alt": "   {:%d.%m.%Y}",
+        "tooltip": false
+    }
+}
