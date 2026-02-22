@@ -66,10 +66,6 @@ alias gitArchive="~/scripts/gitArchive.sh"
 alias ta-vec-na-klavesy="wev"
 alias lsblk="lsblk -o NAME,MAJ:MIN,RM,SIZE,RO,TYPE,MOUNTPOINTS,UUID"
 
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init - zsh)"
-
 export PATH="$PATH:/home/patrick115/dotfiles/template/_generator"
 
 {{ if platform == "pc" }}

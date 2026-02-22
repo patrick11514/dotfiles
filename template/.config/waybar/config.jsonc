@@ -64,8 +64,8 @@
         "format": "{status_icon} {title} - {artist}  {position}/{length}",
         "status-icons": {
             "playing": "",
-            "paused": "[P]",
-            "stopped": "[S]"
+            "paused": "  ",
+            "stopped": "  "
         },
         "max-length": 80,
         "interval": 1,
@@ -135,8 +135,8 @@
     },
 
     "clock": {
-        "format": "   {:%H:%M}",
-        "format-alt": "   {:%d.%m.%Y}",
+        "format": " {:%H:%M}",
+        "format-alt": " {:%d.%m.%Y}",
         "tooltip": false
     }
 }
