@@ -26,6 +26,8 @@ tooltip label {
 
 /* Common module styling: "Pill" shape */
 #workspaces,
+#cpu,
+#memory,
 #pulseaudio,
 #backlight,
 #battery,

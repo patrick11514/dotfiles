@@ -17,6 +17,8 @@
         "group/music"
     ],
     "modules-right": [
+        "cpu",
+        "memory",
         "pulseaudio",
 {{ if platform == "nb" }}
         "backlight",
@@ -80,6 +82,19 @@
         "interval": 1,
         "return-type": "",
         "exec-if": "playerctl status 2>/dev/null | grep -E 'Playing|Paused'"
+    },
+
+    "cpu": {
+        "format": " {usage}%",
+        "tooltip": false,
+        "interval": 2
+    },
+
+    "memory": {
+        "format": " {percentage}%",
+        "tooltip": true,
+        "tooltip-format": "{used:0.1f}GB / {total:0.1f}GB",
+        "interval": 2
     },
 
     "pulseaudio": {
