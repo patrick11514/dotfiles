@@ -74,6 +74,4 @@ export PATH="$PATH:/home/patrick115/.lmstudio/bin"
 
 # bun completions
 [ -s "/home/patrick115/.bun/_bun" ] && source "/home/patrick115/.bun/_bun"
-{{ else }}
-. "$HOME/.ghcup/env"
 {{ end }}
