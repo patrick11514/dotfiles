@@ -65,6 +65,5 @@ $ stow --adopt .
 To enable power profile switching (Performance/Balanced/Low-Power) from the Waybar without entering a password each time, run the setup script:
 
 ```BASH
-$ sudo ./scripts/setup_power_sudo.sh
-```
+$ ./scripts/setup_power_sudo.sh
 ```
