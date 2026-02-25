@@ -1,6 +1,6 @@
 {
 {{ if platform == "pc" }}
-    "output": "DP-2",
+    "output": "DP-1",
 {{ end }}
     "layer": "top",
     "position": "top",
