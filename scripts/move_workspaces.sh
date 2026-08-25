@@ -3,7 +3,8 @@
 if [ -f /tmp/.move_workspaces.lock ]; then
     rm /tmp/.move_workspaces.lock
     
-    ln -sf ~/.config/hypr/rules/single.conf ~/.config/hypr/rules.conf
+    ln -sf ~/.config/hypr/rules/single.lua ~/.config/hypr/rules.lua
+    ln -sf ~/.config/hypr/rules/single.conf ~/.config/hypr/rules.conf 2>/dev/null || true
     hyprctl reload
     
     hyprctl --batch "$(
@@ -15,9 +16,9 @@ if [ -f /tmp/.move_workspaces.lock ]; then
 else
     touch /tmp/.move_workspaces.lock
     
-    ln -sf ~/.config/hypr/rules/dual.conf ~/.config/hypr/rules.conf
+    ln -sf ~/.config/hypr/rules/dual.lua ~/.config/hypr/rules.lua
+    ln -sf ~/.config/hypr/rules/dual.conf ~/.config/hypr/rules.conf 2>/dev/null || true
     hyprctl reload
-    
     
     hyprctl --batch "$(
         for i in {1..8}; do printf "dispatch moveworkspacetomonitor %s HDMI-A-1;" $i; done
