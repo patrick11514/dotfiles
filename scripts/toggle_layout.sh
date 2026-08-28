@@ -8,15 +8,15 @@ if [ -f /tmp/.home_layout.lock ]; then
     ln -sf ~/.config/hypr/monitors/work.conf ~/.config/hypr/monitors.conf 2>/dev/null || true
     ln -sf ~/.config/hypr/rules/single.conf ~/.config/hypr/rules.conf 2>/dev/null || true
     
-    hyprctl dispatch dpms on eDP-1
+    hyprctl dispatch 'hl.dsp.dpms({ action = "on", monitor = "eDP-1" })'
     hyprctl reload
     
     hyprctl --batch "$(
-        for i in {1..10}; do printf "dispatch moveworkspacetomonitor %s eDP-1;" $i; done
+        for i in {1..10}; do printf "dispatch hl.dsp.workspace.move({ workspace = %s, monitor = 'eDP-1' }); " $i; done
     )"
     
-    hyprctl dispatch movetoworkspace 5,class\:\(discord\)
-    hyprctl dispatch movetoworkspace 4,class\:\(Slack\)
+    hyprctl dispatch 'hl.dsp.window.move({ workspace = 5, window = "class:discord" })'
+    hyprctl dispatch 'hl.dsp.window.move({ workspace = 4, window = "class:Slack" })'
 else
     touch /tmp/.home_layout.lock
     
@@ -25,13 +25,13 @@ else
     ln -sf ~/.config/hypr/monitors/home.conf ~/.config/hypr/monitors.conf 2>/dev/null || true
     ln -sf ~/.config/hypr/rules/home.conf ~/.config/hypr/rules.conf 2>/dev/null || true
     
-    hyprctl dispatch dpms off eDP-1
+    hyprctl dispatch 'hl.dsp.dpms({ action = "off", monitor = "eDP-1" })'
     hyprctl reload
     
     hyprctl --batch "$(
-        for i in {1..10}; do printf "dispatch moveworkspacetomonitor %s HDMI-A-1;" $i; done
+        for i in {1..10}; do printf "dispatch hl.dsp.workspace.move({ workspace = %s, monitor = 'HDMI-A-1' }); " $i; done
     )"
     
-    hyprctl dispatch movetoworkspace 9,class\:\(discord\)
-    hyprctl dispatch movetoworkspace 10,class\:\(Slack\)
+    hyprctl dispatch 'hl.dsp.window.move({ workspace = 9, window = "class:discord" })'
+    hyprctl dispatch 'hl.dsp.window.move({ workspace = 10, window = "class:Slack" })'
 fi

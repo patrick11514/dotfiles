@@ -8,11 +8,11 @@ if [ -f /tmp/.move_workspaces.lock ]; then
     hyprctl reload
     
     hyprctl --batch "$(
-        for i in {1..10}; do printf "dispatch moveworkspacetomonitor %s eDP-1;" $i; done
+        for i in {1..10}; do printf "dispatch hl.dsp.workspace.move({ workspace = %s, monitor = 'eDP-1' }); " $i; done
     )"
     
-    hyprctl dispatch movetoworkspace 5,class\:\(discord\)
-    hyprctl dispatch movetoworkspace 4,class\:\(Slack\)
+    hyprctl dispatch 'hl.dsp.window.move({ workspace = 5, window = "class:discord" })'
+    hyprctl dispatch 'hl.dsp.window.move({ workspace = 4, window = "class:Slack" })'
 else
     touch /tmp/.move_workspaces.lock
     
@@ -21,10 +21,10 @@ else
     hyprctl reload
     
     hyprctl --batch "$(
-        for i in {1..8}; do printf "dispatch moveworkspacetomonitor %s HDMI-A-1;" $i; done
-        for i in {9..10}; do printf "dispatch moveworkspacetomonitor %s eDP-1;" $i; done
+        for i in {1..8}; do printf "dispatch hl.dsp.workspace.move({ workspace = %s, monitor = 'HDMI-A-1' }); " $i; done
+        for i in {9..10}; do printf "dispatch hl.dsp.workspace.move({ workspace = %s, monitor = 'eDP-1' }); " $i; done
     )"
     
-    hyprctl dispatch movetoworkspace 9,class\:\(discord\)
-    hyprctl dispatch movetoworkspace 10,class\:\(Slack\)
+    hyprctl dispatch 'hl.dsp.window.move({ workspace = 9, window = "class:discord" })'
+    hyprctl dispatch 'hl.dsp.window.move({ workspace = 10, window = "class:Slack" })'
 fi
