@@ -97,7 +97,7 @@ The parser processes template files line-by-line supporting JavaScript condition
 ## 3. Scripts Directory (`scripts/`)
 
 Key utilities include:
-- `power_profile.sh` / `setup_power_sudo.sh`: ACPI platform power profile manager (`low-power`, `balanced`, `performance`) with JSON output for Waybar and passwordless sudo support.
+- `power_profile.sh` / `power_profile_pc.sh` / `power_profile_nb.sh` / `setup_power_sudo.sh`: Power profile manager (CPU EPP for desktop PC, ACPI platform profiles for notebook) with JSON output for Waybar and passwordless sudo support.
 - `toggle_layout.sh` / `toggle_monitor.sh` / `restoreMonitors.sh` / `movie_monitors.sh`: Hyprland multi-monitor layout switchers (work vs. home setups) and workspace reassignment.
 - `brightness.sh`: Laptop screen brightness adjustment with notification feedback.
 - `startZed.sh` / `gitArchive.sh` / `upload.sh`: Development shortcuts and helpers.

@@ -22,9 +22,9 @@
         "pulseaudio",
 {{ if platform == "nb" }}
         "backlight",
-        "custom/power_profile",
         "battery",
 {{ end }}
+        "custom/power_profile",
         "tray",
         "clock"
     ],
@@ -139,8 +139,13 @@
         "format": "{}",
         "tooltip": true,
         "return-type": "json",
-        "exec": "~/dotfiles/scripts/power_profile.sh",
-        "on-click": "~/dotfiles/scripts/power_profile.sh toggle",
+{{ if platform == "pc" }}
+        "exec": "~/scripts/power_profile_pc.sh",
+        "on-click": "~/scripts/power_profile_pc.sh toggle",
+{{ else }}
+        "exec": "~/scripts/power_profile_nb.sh",
+        "on-click": "~/scripts/power_profile_nb.sh toggle",
+{{ end }}
         "interval": 5
     },
 
