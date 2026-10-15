@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+TARGET_DIR="${1:-.}"
+FILENAME="screenshot_$(date +%Y%m%d_%H%M%S).png"
+
+# Check if clipboard contains image data
+if wl-paste --list-types | grep -q 'image/png'; then
+    wl-paste --type image/png > "$TARGET_DIR/$FILENAME"
+    notify-send "Thunar" "Saved clipboard image as $FILENAME"
+fi
