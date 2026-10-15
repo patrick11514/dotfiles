@@ -142,12 +142,19 @@ hl.config({
         sensitivity = 0,
         touchpad = {
             natural_scroll = true,
+            disable_while_typing = false
         },
         accel_profile = "flat",
         numlock_by_default = true,
 {{ if platform == "pc" }}
         tablet = {
             output = monitor_center,
+            relative_input = false,
+        },
+{{ else }}
+        tablet = {
+            output = "current",
+            relative_input = false,
         },
 {{ end }}
     },
